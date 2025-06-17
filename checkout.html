@@ -39,27 +39,30 @@
       }
 
       .container {
-        display: flex;
-        flex-wrap: wrap;
-        max-width: 1200px;
-        margin: 20px auto;
-        gap: 20px;
-        padding: 0 20px;
-      }
+  display: flex;
+  max-width: 1200px;
+  margin: 20px auto;
+  gap: 20px;
+  padding: 0 20px;
+}
 
       .left-side {
-        flex: 1 1 55%;
-
-        border-radius: 10px;
-        padding: 24px;
-      }
+  flex: 1; /* Takes remaining space */
+  border-radius: 10px;
+  padding: 24px;
+  min-width: 0; /* Prevents flex item from overflowing */
+}
 
       .right-side {
-        flex: 1 1 35%;
-        border: 1px solid #d5d4d4;
-        border-radius: 10px;
-        padding: 20px;
-      }
+  width: 400px; /* Fixed width */
+  border: 1px solid #d5d4d4;
+  border-radius: 10px;
+  padding: 20px;
+  position: sticky;
+  top: 20px; /* Sticks to the top when scrolling */
+  height: fit-content; /* Height adjusts to content */
+
+}
 
       .section-title {
         font-size: 20px;
@@ -468,6 +471,58 @@
         color: #fff;
         font-weight: 600;
       }
+      .login-box {
+        max-width: 400px;
+        margin: 50px auto;
+        padding: 24px;
+        font-family: Arial, sans-serif;
+      }
+
+      .login-box h2 {
+        font-size: 22px;
+        font-weight: bold;
+        margin-bottom: 20px;
+      }
+
+      .login-box label {
+        display: block;
+        margin: 15px 0 5px;
+        font-size: 14px;
+      }
+
+      .login-box input {
+        width: 100%;
+        padding: 12px;
+        font-size: 14px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        box-sizing: border-box;
+      }
+
+      .info-text {
+        font-size: 12px;
+        color: #666;
+        margin: 10px 0 20px;
+      }
+
+      .info-text a {
+        color: #000;
+        text-decoration: underline;
+        font-weight: 500;
+      }
+
+      .login-btn {
+        width: 100%;
+        padding: 12px;
+        font-size: 16px;
+        background: #7b9cc4;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: background 0.3s;
+      }
     </style>
   </head>
   <body>
@@ -480,6 +535,27 @@
       <!-- LEFT SIDE -->
 
       <div class="left-side">
+        <section class="login-box">
+          <h2>Log in or sign up to book</h2>
+
+          <label for="username">Username</label>
+          <input type="text" id="username" placeholder="Enter your username" />
+
+          <label for="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            placeholder="Enter your password"
+          />
+
+          <p class="info-text">
+            Your information is secure and will not be shared.
+            <a href="#">Privacy Policy</a>
+          </p>
+
+          <button class="login-btn">Continue</button>
+        </section>
+
         <div class="date-guest-section">
           <div class="section-title">Your trip</div>
 
