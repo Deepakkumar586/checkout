@@ -1,830 +1,2713 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Confirm and Pay - Airbnb</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/material_blue.css"
-    />
-    <style>
-      body {
-        margin: 0;
-        font-family: "Poppins", sans-serif;
-
-        color: #222;
-      }
-
-      .confirm-heading {
-        padding: 16px 24px;
-        border-bottom: 1px solid #eee;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 20px;
-        font-weight: 600;
-      }
-
-      .container {
-  display: flex;
-  max-width: 1200px;
-  margin: 20px auto;
-  gap: 20px;
-  padding: 0 20px;
-}
-
-      .left-side {
-  flex: 1; /* Takes remaining space */
-  border-radius: 10px;
-  padding: 24px;
-  min-width: 0; /* Prevents flex item from overflowing */
-}
-
-      .right-side {
-  width: 400px; /* Fixed width */
-  border: 1px solid #d5d4d4;
-  border-radius: 10px;
-  padding: 20px;
-  position: sticky;
-  top: 20px; /* Sticks to the top when scrolling */
-  height: fit-content; /* Height adjusts to content */
-
-}
-
-      .section-title {
-        font-size: 20px;
-        font-weight: 600;
-        margin-bottom: 12px;
-      }
-
-      .info-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 20px;
-      }
-
-      .info-row h4 {
-        margin: 0;
-        font-size: 15px;
-        font-weight: 500;
-      }
-
-      .info-row p {
-        margin: 2px 0 0;
-        font-size: 14px;
-        color: #555;
-      }
-      .rating-review-section {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-      }
-      .rating-section {
-        font-size: 14px;
-        color: black !important;
-        display: flex;
-        align-items: center;
-        font-weight: 500;
-      }
-      .rating-section i {
-        color: black;
-        font-size: 12px;
-        margin-right: 4px;
-      }
-      .reviews-section {
-        margin-left: 5px;
-        color: #343232;
-      }
-
-      .booking-confirmation-form {
-        padding: 20px;
-        font-family: "Poppins", sans-serif;
-        color: #333;
-      }
-
-      .form-title {
-        color: black;
-        padding: 10px 20px;
-        border-radius: 6px;
-        text-align: center;
-        font-size: 22px;
-        margin-bottom: 30px;
-      }
-
-      .form-row {
-        display: flex;
-        gap: 20px;
-        margin-bottom: 20px;
-        flex-wrap: wrap;
-      }
-
-      .form-group {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-      }
-
-      label {
-        font-weight: 600;
-        margin-bottom: 8px;
-      }
-
-      label span {
-        color: black;
-        margin-left: 2px;
-      }
-
-      input[type="text"],
-      input[type="email"] {
-        padding: 10px;
-        font-size: 14px;
-        border-radius: 6px;
-        border: 1px solid #ccc;
-        outline: none;
-      }
-
-      input[type="text"]:focus,
-      input[type="email"]:focus {
-        border-color: #7b9cc4;
-      }
-
-      .right-side-super-host i {
-        color: black;
-        font-size: 12px;
-        margin-right: 4px;
-      }
-      .right-side-super-host {
-        font-size: 14px;
-        color: #343232 !important;
-        display: flex;
-        align-items: center;
-        font-weight: 500;
-        margin-left: auto;
-      }
-
-      .info-row button {
-        background: none;
-        border: none;
-        color: #000;
-        font-weight: 500;
-        cursor: pointer;
-        font-size: 16px;
-        display: inline;
-        border-bottom: 2px solid black;
-        padding: 0;
-      }
-
-      .price-card {
-        display: flex;
-        gap: 15px;
-      }
-
-      .price-img img {
-        width: 100px;
-        height: 80px;
-        border-radius: 10px;
-        object-fit: cover;
-      }
-
-      .price-info h4 {
-        margin: 0;
-        font-size: 15px;
-        font-weight: 600;
-      }
-
-      .price-info p {
-        margin: 4px 0;
-        font-size: 14px;
-        color: #343232;
-      }
-
-      .price-breakdown {
-        margin-top: 20px;
-        font-size: 14px;
-      }
-
-      .price-line {
-        display: flex;
-        justify-content: space-between;
-        margin: 8px 0;
-      }
-      .price-line i {
-        color: #343232;
-        font-size: 13px;
-      }
-
-      .total {
-        font-weight: 600;
-        font-size: 16px;
-        border-top: 1px solid #c6c6c6;
-        padding-top: 10px;
-        margin-top: 10px;
-      }
-
-      a {
-        color: #000;
-        font-size: 14px;
-        text-decoration: underline;
-        cursor: pointer;
-      }
-
-      .modal-overlay {
-        display: none;
-        position: fixed;
-        inset: 0;
-        background-color: rgba(0, 0, 0, 0.4);
-        z-index: 999;
-        justify-content: center;
-        align-items: center;
-      }
-
-      .modal-content {
-        background-color: #fff;
-        width: 90%;
-        max-width: 510px;
-        border-radius: 25px;
-        padding: 25px;
-        animation: fadeIn 0.2s ease-in-out;
-      }
-
-      .modal-header {
-        display: flex;
-        justify-content: space-between;
-        font-size: 18px;
-        font-weight: 600;
-      }
-
-      .close-btn {
-        font-size: 22px;
-        cursor: pointer;
-      }
-
-      .modal-body .line {
-        display: flex;
-        justify-content: space-between;
-        margin: 16px 0;
-        font-size: 15px;
-      }
-
-      .modal-body .total {
-        margin-top: 10px;
-        font-weight: 600;
-      }
-
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-          transform: translateY(10px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      .razorpay-section {
-        margin-top: 30px;
-      }
-
-      .razorpay-title {
-        font-size: 20px;
-        font-weight: 600;
-        margin-bottom: 12px;
-      }
-
-      .razorpay-box {
-        border: 1px solid #ccc;
-        border-radius: 10px;
-        padding: 20px;
-      }
-
-      .razorpay-header {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        margin-bottom: 10px;
-      }
-
-      .razorpay-logo {
-        height: 24px;
-      }
-
-      .razorpay-label {
-        font-weight: 500;
-      }
-
-      .razorpay-description {
-        font-size: 14px;
-        color: #555;
-      }
-
-      .razorpay-button {
-        margin-top: 15px;
-        width: 100%;
-        padding: 12px;
-        background-color: #7b9cc4;
-        color: white;
-        font-weight: 600;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: background-color 0.2s ease;
-      }
-
-      .razorpay-button:hover {
-        background-color: #7b9cc4;
-      }
-
-      @media (max-width: 768px) {
-        .container {
-          flex-direction: column;
-          padding: 0 16px;
-        }
-
-        .left-side,
-        .right-side {
-          flex: 1 1 100%;
-        }
-
-        .price-card {
-          flex-direction: column;
-        }
-
-        .price-img img {
-          width: 100%;
-          height: auto;
-        }
-
-        .form-row {
-          flex-direction: column;
-        }
-      }
-
-      .date-picker-container {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background: white;
-        padding: 24px;
-        border-radius: 12px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-        z-index: 999;
-      }
-
-      .date-heading {
-        font-size: 22px;
-        font-weight: 600;
-        margin-bottom: 8px;
-      }
-
-      .sub-heading {
-        font-size: 14px;
-        color: #555;
-        margin-bottom: 24px;
-      }
-
-      .input-group {
-        display: flex;
-        gap: 16px;
-        margin-bottom: 20px;
-      }
-
-      .input-field {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-      }
-
-      label {
-        font-size: 13px;
-        font-weight: 500;
-        margin-bottom: 6px;
-        color: #444;
-      }
-
-      input[type="text"] {
-        padding: 10px 12px;
-        font-size: 14px;
-        border: 1px solid #ccc;
-        border-radius: 8px;
-        outline: none;
-        transition: border 0.2s ease;
-      }
-
-      input[type="text"]:focus {
-        border-color: #0b72e7;
-      }
-
-      .flatpickr-calendar {
-        font-family: "Inter", sans-serif;
-      }
-
-      .flatpickr-day.selected,
-      .flatpickr-day.startRange,
-      .flatpickr-day.endRange {
-        background: #000 !important;
-        color: white !important;
-        border-radius: 100% !important;
-      }
-
-      .flatpickr-day.inRange {
-        background-color: rgba(0, 0, 0, 0.1) !important;
-      }
-
-      .footer-buttons {
-        display: flex;
-        justify-content: flex-end;
-        gap: 16px;
-      }
-
-      .btn {
-        padding: 8px 18px;
-        font-size: 14px;
-        border-radius: 8px;
-        cursor: pointer;
-        border: none;
-      }
-
-      .btn-clear {
-        background: transparent;
-        color: #333;
-        text-decoration: underline;
-      }
-
-      .btn-save {
-        background: #000;
-        color: #fff;
-        font-weight: 600;
-      }
-      .login-box {
-        max-width: 400px;
-        margin: 50px auto;
-        padding: 24px;
-        font-family: Arial, sans-serif;
-      }
-
-      .login-box h2 {
-        font-size: 22px;
-        font-weight: bold;
-        margin-bottom: 20px;
-      }
-
-      .login-box label {
-        display: block;
-        margin: 15px 0 5px;
-        font-size: 14px;
-      }
-
-      .login-box input {
-        width: 100%;
-        padding: 12px;
-        font-size: 14px;
-        border: 1px solid #ccc;
-        border-radius: 8px;
-        box-sizing: border-box;
-      }
-
-      .info-text {
-        font-size: 12px;
-        color: #666;
-        margin: 10px 0 20px;
-      }
-
-      .info-text a {
-        color: #000;
-        text-decoration: underline;
-        font-weight: 500;
-      }
-
-      .login-btn {
-        width: 100%;
-        padding: 12px;
-        font-size: 16px;
-        background: #7b9cc4;
-        color: white;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        font-weight: bold;
-        transition: background 0.3s;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="confirm-heading">
-      <i class="fa-regular fa-circle-left" style="margin-right: 10px"></i>
-      Confirm and pay
+ <!-- Start Main -->
+ <?php include('include/staging-header.php') ?>
+ <?php
+    $api_key = '2ada23b643332d312a867b88397fc147';
+    $image_base_url = 'https://image.tmdb.org/t/p/w500';
+    $genres = json_decode(file_get_contents("https://api.themoviedb.org/3/genre/movie/list?api_key=$api_key&language=en-IN"), true)['genres'];
+    ?>
+
+
+ <style>
+     .category-two {
+         margin-block: 50px;
+     }
+
+     .text-gradient {
+         @apply bg-gradient-to-r from-red-500 via-yellow-500 to-purple-500 bg-clip-text text-transparent;
+     }
+ </style>
+
+
+ <style>
+     .movie-card {
+         transition: transform 0.4s ease;
+         position: relative;
+     }
+
+     .movie-card:hover {
+         transform: scale(1.07);
+         z-index: 20;
+     }
+
+     .movie-overlay,
+     .movie-details,
+     .movie-options {
+         opacity: 0;
+         transition: opacity 0.4s ease;
+     }
+
+     .movie-card:hover .movie-overlay,
+     .movie-card:hover .movie-details,
+     .movie-card:hover .movie-options {
+         opacity: 1;
+     }
+
+     .swiper-button-prev::after,
+     .swiper-button-next::after {
+         font-size: 18px;
+
+         font-weight: 700;
+         color: white;
+         line-height: 1;
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         /* margin-bottom: 4px; */
+     }
+
+     .swiper-button-prev::after {
+         content: '';
+         display: inline-block;
+         width: 20px;
+         height: 20px;
+         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='white'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M15 19l-7-7 7-7'/%3E%3C/svg%3E");
+         background-size: cover;
+     }
+
+     .swiper-button-next::after {
+         content: '';
+         display: inline-block;
+         width: 20px;
+         height: 20px;
+         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='white'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M9 5l7 7-7 7'/%3E%3C/svg%3E");
+         background-size: cover;
+     }
+ </style>
+
+
+ <main class=" bg-white text-black dark:bg-black dark:text-white transition duration-300">
+
+     <!-- Fresh In Theatres -->
+     <section class="px-4 sm:px-6 md:px-10 lg:px-16 py-10  max-w-7xl mx-auto">
+
+
+         <h3 class="text-3xl !sm:text-xl font-bold flex gap-2 !mb-6 text-gray-900 dark:text-white">
+             Movies In Theatres
+             <svg xmlns="http://www.w3.org/2000/svg" width="21" height="40" fill="currentColor">
+                 <path fill-rule="evenodd" clip-rule="evenodd"
+                     d="M8.88911 14.9994C3.37383 10.5446 0.73813 4.55253 0 0.345635L1.96991 0C2.63631 3.79806 5.05691 9.33313 10.1458 13.4436C12.861 15.6367 16.3628 17.4461 20.8135 18.3595V21.6434C16.3628 22.5568 12.861 24.3662 10.1458 26.5593C5.05691 30.6698 2.63631 36.2048 1.96991 40.0029L0 39.6573C0.73813 35.4504 3.37383 29.4583 8.88911 25.0035C11.5757 22.8334 14.9236 21.0459 19.0292 20.0014C14.9236 18.957 11.5757 17.1695 8.88911 14.9994Z" />
+             </svg>
+         </h3>
+         <div class="swiper-button-prev-top-5 !w-[30px] !h-[30px]  rounded-[50%] bg-white/40 hover:bg-black/60 transition-all duration-300 flex items-center justify-center absolute top-1/2 -translate-y-1/2 z-10"></div>
+         <div class="swiper-button-next-top-5 !w-[30px] !h-[30px] !right-2 !rounded-[50%] bg-white/40 hover:bg-black/60 transition-all duration-300 flex items-center justify-center absolute top-1/2 -translate-y-1/2 z-10"></div>
+         <div class="swiper top-movies-weeks px-4 py-6">
+             <div class="swiper-wrapper">
+                
+                 <div class="swiper-slide max-w-[300px] sm:max-w-[250px] md:max-w-[280px] lg:max-w-[300px]">
+                     <div class="dark:bg-[#111] border border-gray-800 rounded-xl overflow-hidden transition-all duration-300 shadow hover:border-gray-600 h-full flex flex-col">
+                         <!-- Image -->
+                         <div class="relative">
+                            
+
+
+                             
+   <div class="relative group">
+  <img src="https://www.themoviedb.org/t/p/w1280/iY9GteV9Cf0G4m0tGakAXrpy6Bq.jpg" alt="Raid 2"
+    class="w-full !h-[310px] rounded-md transition-transform duration-300 hover:scale-105">
+
+  <!-- Play Button Overlay -->
+ <a href="#"
+  class="absolute inset-0 flex items-center justify-center movie-overlay z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/40 rounded-md">
+
+  <!-- Circle with play button -->
+  <div class="border-2 border-white p-4 rounded-full flex !items-center !justify-center">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" viewBox="0 0 16 19">
+      <path
+        d="M14.249 7.49136C15.5132 8.27308 15.5132 10.1118 14.249 10.8935L3.05184 17.8171C1.71942 18.641 0 17.6826 0 16.1161V2.2688C0 0.702239 1.71942 -0.256149 3.05184 0.567735L14.249 7.49136Z" />
+    </svg>
+  </div>
+
+</a>
+
+</div>
+
+                            
+                             <button class="absolute top-3 right-4 bg-black/70 hover:bg-black/90 p-2 rounded-full transition-all duration-200 backdrop-blur-sm">
+                                 <i class="fa fa-bookmark text-white text-sm"></i>
+                             </button>
+                         </div>
+
+                         <!-- Content -->
+                         <div class="p-4 space-y-2 text-sm text-white flex flex-col justify-between flex-grow">
+                             <div class="flex justify-between items-center">
+
+                                 <p class="font-semibold text-sm truncate text-gray-900 dark:text-white">Raid 2</p>
+                                  <div class="bg-black/80 text-amber-400 text-sm px-2.5 py-1 rounded-md flex items-center gap-1 backdrop-blur-sm">
+                                 <i class="fa fa-star text-[11px]"></i><span class="!font-bold">9/10</span>
+                             </div>
+                                
+                             </div>
+ <p class=" text-sm whitespace-nowrap text-gray-900 dark:text-white"><span class="text-gray-900 dark:text-white">Release:</span> 2025</p>
+                             <div class="flex flex-wrap gap-2 text-[11px] text-gray-900 dark:text-white">
+                                 <span class="bg-gray-800/80 rounded-md px-3 py-1 text-white">Thriller</span>
+                             </div>
+
+                             <p class="text-gray-900 dark:text-white text-sm line-clamp-1 italic">“ Viral popularity + strong critic & audience acclaim ”</p>
+
+                             <div class="flex gap-3 mt-auto pt-2">
+                                 <a href="javascript:void(0)" class="flex-1 py-2 bg-amber-500 hover:bg-amber-400 text-gray-900 dark:text-white font-semibold text-sm rounded-md flex items-center justify-center gap-2 transition">
+                                     <i class="fa fa-eye text-sm"></i> View Details
+                                 </a>
+                                 <button class="flex-1 py-2 border border-gray-700 bg-gray-800 text-white text-sm rounded-md flex items-center justify-center gap-2 transition">
+                                     <i class="fas fa-play text-sm"></i> Watch Trailer
+                                 </button>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+                 <div class="swiper-slide max-w-[300px] sm:max-w-[250px] md:max-w-[280px] lg:max-w-[300px]">
+                     <div class="dark:bg-[#111] border border-gray-800 rounded-xl overflow-hidden transition-all duration-300 shadow hover:border-gray-600 h-full flex flex-col">
+                         <!-- Image -->
+                         <div class="relative">
+                            
+                             
+                                     <div class="relative group">
+  <img src="assets/images/houseful5.png" alt="houseful-5" class="w-full !h-[310px]  rounded-md transition-transform duration-300 hover:scale-105">
+
+<!-- Play Button Overlay -->
+ <a href="#"
+  class="absolute inset-0 flex items-center justify-center movie-overlay z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/40 rounded-md">
+
+  <!-- Circle with play button -->
+  <div class="border-2 border-white p-4 rounded-full flex !items-center !justify-center">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" viewBox="0 0 16 19">
+      <path
+        d="M14.249 7.49136C15.5132 8.27308 15.5132 10.1118 14.249 10.8935L3.05184 17.8171C1.71942 18.641 0 17.6826 0 16.1161V2.2688C0 0.702239 1.71942 -0.256149 3.05184 0.567735L14.249 7.49136Z" />
+    </svg>
+  </div>
+
+</a>
+</div>
+         
+                             <button class="absolute top-3 right-4 bg-black/70 hover:bg-black/90 p-2 rounded-full transition-all duration-200 backdrop-blur-sm">
+                                 <i class="fa fa-bookmark text-white text-sm"></i>
+                             </button>
+                         </div>
+
+                         <!-- Content -->
+                         <div class="p-4 space-y-2 text-sm text-white flex flex-col justify-between flex-grow">
+                             <div class="flex justify-between items-center">
+                                 <p class="font-semibold text-sm truncate text-gray-900 dark:text-white">Housefull-5</p>
+                                
+
+                                 <div class=" bg-black/80 text-amber-400 text-sm px-2.5 py-1 rounded-md flex items-center gap-1 backdrop-blur-sm">
+                                 <i class="fa fa-star text-[11px]"></i><span class="!font-bold">9/10</span>
+                             </div>
+                             </div>
+ <p class=" text-sm whitespace-nowrap text-gray-900 dark:text-white"><span class="text-gray-900 dark:text-white">Release:</span> 2025</p>
+                             <div class="flex flex-wrap gap-2 text-[11px] text-gray-900 dark:text-white">
+                                 <span class="bg-gray-800/80 rounded-md px-3 py-1 text-white">Comedy </span>
+                             </div>
+
+                             <p class="text-gray-900 dark:text-white text-sm line-clamp-1 italic">“ Unlucky man’s love sparks chaotic comedy. ”</p>
+
+                             <div class="flex gap-3 mt-auto pt-2">
+                                 <a href="javascript:void(0)" class="flex-1 py-2 bg-amber-500 hover:bg-amber-400 text-gray-900 dark:text-white font-semibold text-sm rounded-md flex items-center justify-center gap-2 transition">
+                                     <i class="fa fa-eye text-sm"></i> View Details
+                                 </a>
+                                 <button class="flex-1 py-2 border border-gray-700 bg-gray-800 text-white text-sm rounded-md flex items-center justify-center gap-2 transition">
+                                     <i class="fas fa-play text-sm"></i> Watch Trailer
+                                 </button>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+                 <div class="swiper-slide max-w-[300px] sm:max-w-[250px] md:max-w-[280px] lg:max-w-[300px]">
+                     <div class="dark:bg-[#111] border border-gray-800 rounded-xl overflow-hidden transition-all duration-300 shadow hover:border-gray-600 h-full flex flex-col">
+                         <!-- Image -->
+                         <div class="relative">
+                           
+                            
+
+                              <div class="relative group">
+  <img src="https://image.tmdb.org/t/p/w500/2ztRFbp1YSvMSIrr7AqYq6i6pqC.jpg" alt="houseful-5" class="w-full !h-[310px] rounded-md  transition-transform duration-300 hover:scale-105">
+
+<!-- Play Button Overlay -->
+ <a href="#"
+  class="absolute inset-0 flex items-center justify-center movie-overlay z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/40 rounded-md">
+
+  <!-- Circle with play button -->
+  <div class="border-2 border-white p-4 rounded-full flex !items-center !justify-center">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" viewBox="0 0 16 19">
+      <path
+        d="M14.249 7.49136C15.5132 8.27308 15.5132 10.1118 14.249 10.8935L3.05184 17.8171C1.71942 18.641 0 17.6826 0 16.1161V2.2688C0 0.702239 1.71942 -0.256149 3.05184 0.567735L14.249 7.49136Z" />
+    </svg>
+  </div>
+
+</a>
+</div>
+                             <button class="absolute top-3 right-4 bg-black/70 hover:bg-black/90 p-2 rounded-full transition-all duration-200 backdrop-blur-sm">
+                                 <i class="fa fa-bookmark text-white text-sm"></i>
+                             </button>
+                         </div>
+
+                         <!-- Content -->
+                         <div class="p-4 space-y-2 text-sm text-white flex flex-col justify-between flex-grow">
+                             <div class="flex justify-between items-center">
+                                 <p class="font-semibold text-sm truncate text-gray-900 dark:text-white">Sitaare Zameen Par</p>
+                                  <div class=" bg-black/80 text-amber-400 text-sm px-2.5 py-1 rounded-md flex items-center gap-1 backdrop-blur-sm">
+                                 <i class="fa fa-star text-[11px]"></i><span class="!font-bold">9/10</span>
+                             </div>
+                                
+                             </div>
+ <p class=" text-sm whitespace-nowrap text-gray-900 dark:text-white"><span class="text-gray-900 dark:text-white">Release:</span> 2025</p>
+                             <div class="flex flex-wrap gap-2 text-[11px] text-gray-900 dark:text-white">
+                                 <span class="bg-gray-800/80 rounded-md px-3 py-1 text-white">Sports </span>
+                             </div>
+
+                             <p class="text-gray-900 dark:text-white text-sm line-clamp-1 italic">“ Coach transforms special kids through basketball. ”</p>
+
+                             <div class="flex gap-3 mt-auto pt-2">
+                                 <a href="javascript:void(0)" class="flex-1 py-2 bg-amber-500 hover:bg-amber-400 text-gray-900 dark:text-white font-semibold text-sm rounded-md flex items-center justify-center gap-2 transition">
+                                     <i class="fa fa-eye text-sm"></i> View Details
+                                 </a>
+                                 <button class="flex-1 py-2 border border-gray-700 bg-gray-800 text-white text-sm rounded-md flex items-center justify-center gap-2 transition">
+                                     <i class="fas fa-play text-sm"></i> Watch Trailer
+                                 </button>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+                 
+             </div>
+
+             <!-- Swiper Navigation -->
+             <!-- <div class="swiper-button-prev bg-gray-600 w-10 h-10 rounded-full after:text-white after:text-xl hover:bg-amber-500 transition"></div>
+             <div class="swiper-button-next bg-gray-600 w-10 h-10 rounded-full after:text-white after:text-xl hover:bg-amber-500 transition"></div> -->
+         </div>
+
+     </section>
+
+     <!-- Now Playing & Streaming Picks -->
+
+     <div class="px-4 sm:px-6 md:px-10 lg:px-16 py-10  max-w-7xl mx-auto">
+
+
+         <h3 class="text-3xl !sm:text-xl font-bold flex gap-2 !mb-6 text-gray-900 dark:text-white">
+             Movies on OTT
+             <svg xmlns="http://www.w3.org/2000/svg" width="21" height="40" fill="currentColor">
+                 <path fill-rule="evenodd" clip-rule="evenodd"
+                     d="M8.88911 14.9994C3.37383 10.5446 0.73813 4.55253 0 0.345635L1.96991 0C2.63631 3.79806 5.05691 9.33313 10.1458 13.4436C12.861 15.6367 16.3628 17.4461 20.8135 18.3595V21.6434C16.3628 22.5568 12.861 24.3662 10.1458 26.5593C5.05691 30.6698 2.63631 36.2048 1.96991 40.0029L0 39.6573C0.73813 35.4504 3.37383 29.4583 8.88911 25.0035C11.5757 22.8334 14.9236 21.0459 19.0292 20.0014C14.9236 18.957 11.5757 17.1695 8.88911 14.9994Z" />
+             </svg>
+         </h3>
+
+         <div class="flex flex-wrap sm:flex-nowrap items-center justify-center sm:justify-start gap-x-3 gap-y-2 overflow-x-auto py-3 mb-6 px-2 sm:px-0  text-white">
+
+             <!-- Netflix -->
+             <input type="radio" name="tab" id="tab1" class="hidden" checked>
+             <label for="tab1"
+                 class="tab-label whitespace-nowrap px-3 py-1.5 sm:px-4 sm:!py-2 cursor-pointer text-sm sm:text-sm md:text-base font-semibold uppercase tracking-wide border-b-2 border-transparent hover:border-amber-500 transition-colors duration-200 text-gray-900 dark:text-white" data-tab="netflix">
+                 Netflix
+             </label>
+
+             <!-- JioHotstar -->
+             <input type="radio" name="tab" id="tab2" class="hidden">
+             <label for="tab2"
+                 class="tab-label whitespace-nowrap px-3 py-1.5 sm:px-4 sm:!py-2 cursor-pointer text-sm sm:text-sm md:text-base font-semibold uppercase tracking-wide border-b-2 border-transparent hover:border-amber-500 transition-colors duration-200 text-gray-900 dark:text-white" data-tab="jiohotstar">
+                 JioHotstar
+             </label>
+
+             <!-- MX Player -->
+             <input type="radio" name="tab" id="tab3" class="hidden">
+             <label for="tab3"
+                 class="tab-label whitespace-nowrap px-3 py-1.5 sm:px-4 sm:!py-2 cursor-pointer text-sm sm:text-sm md:text-base font-semibold uppercase tracking-wide border-b-2 border-transparent hover:border-amber-500 transition-colors duration-200 text-gray-900 dark:text-white" data-tab="mxplayer">
+                 MX Player
+             </label>
+
+             <!-- SonyLIV -->
+             <input type="radio" name="tab" id="tab4" class="hidden">
+             <label for="tab4"
+                 class="tab-label whitespace-nowrap px-3 py-1.5 sm:px-4 sm:!py-2 cursor-pointer text-sm sm:text-sm md:text-base font-semibold uppercase tracking-wide border-b-2 border-transparent hover:border-amber-500 transition-colors duration-200 text-gray-900 dark:text-white" data-tab="sonyliv">
+                 SonyLIV
+             </label>
+
+         </div>
+
+
+
+
+         <div id="netflix" class="tab-content lg:px-4 lg:py-6 md:px-2 md:py-4 relative">
+             <div class="swiper tabs-streaming-slider">
+                 <div class="swiper-wrapper" id="movie-list-netflix">
+                     <!-- Dynamic Cards will be inserted here -->
+                 </div>
+
+                 <!-- Navigation Buttons -->
+                 <div class="swiper-button-prev !bg-gray-800 !w-10 !hover:bg-gray-700 dark:hover:bg-gray-600  !h-10 rounded-full after:!text-white after:!text-xl"></div>
+                 <div class="swiper-button-next !bg-gray-800 !w-10 !h-10 !hover:bg-gray-700 dark:hover:bg-gray-600  rounded-full after:!text-white after:!text-xl"></div>
+             </div>
+         </div>
+
+
+
+         <div id="jiohotstar" class="tab-content lg:px-4 lg:py-6 md:px-2 md:py-4 relative">
+             <div class="swiper tabs-streaming-slider">
+                 <div class="swiper-wrapper" id="movie-list-jiohotstar">
+
+                 </div>
+                 <!-- Next Button -->
+                 <div class="swiper-button-next !bg-gray-600 !w-10 !h-10 rounded-full after:!text-white after:!text-2xl"></div>
+                 <div class="swiper-button-prev !bg-gray-600 !w-10 !h-10 rounded-full after:!text-white after:!text-2xl"></div>
+
+             </div>
+         </div>
+         <div id="mxplayer" class="tab-content lg:px-4 lg:py-6 md:px-2 md:py-4 relative">
+             <div class="swiper tabs-streaming-slider">
+                 <div class="swiper-wrapper" id="movie-list-mxplayer">
+                 </div>
+                 <!-- Next Button -->
+                 <div class="swiper-button-next !bg-gray-600 !w-10 !h-10 rounded-full after:!text-white after:!text-2xl"></div>
+                 <div class="swiper-button-prev !bg-gray-600 !w-10 !h-10 rounded-full after:!text-white after:!text-2xl"></div>
+
+             </div>
+         </div>
+         <div id="sonyliv" class="tab-content lg:px-4 lg:py-6 md:px-2 md:py-4 relative">
+             <div class="swiper tabs-streaming-slider">
+                 <div class="swiper-wrapper" id="movie-list-sonyliv">
+                 </div>
+                 <!-- Next Button -->
+                 <div class="swiper-button-next !bg-gray-600 !w-10 !h-10 rounded-full after:!text-white after:!text-2xl"></div>
+                 <div class="swiper-button-prev !bg-gray-600 !w-10 !h-10 rounded-full after:!text-white after:!text-2xl"></div>
+             </div>
+         </div>
+     </div>
+
+     <!-- customer videos reviews -->
+     <section class="px-4 sm:px-6 md:px-10 lg:px-16 py-10 bg-white dark:bg-black max-w-7xl mx-auto">
+         <div class="flex justify-between items-center mb-6">
+             <h3 class="text-3xl !sm:text-xl font-bold flex gap-2 !mb-6 text-gray-900 dark:text-white">
+                 Trending Videos reviews
+                 <svg xmlns="http://www.w3.org/2000/svg" width="21" height="40" fill="currentColor">
+                     <path fill-rule="evenodd" clip-rule="evenodd"
+                         d="M8.88911 14.9994C3.37383 10.5446 0.73813 4.55253 0 0.345635L1.96991 0C2.63631 3.79806 5.05691 9.33313 10.1458 13.4436C12.861 15.6367 16.3628 17.4461 20.8135 18.3595V21.6434C16.3628 22.5568 12.861 24.3662 10.1458 26.5593C5.05691 30.6698 2.63631 36.2048 1.96991 40.0029L0 39.6573C0.73813 35.4504 3.37383 29.4583 8.88911 25.0035C11.5757 22.8334 14.9236 21.0459 19.0292 20.0014C14.9236 18.957 11.5757 17.1695 8.88911 14.9994Z" />
+                 </svg>
+             </h3>
+
+             <div class="flex gap-3 items-center">
+                 <button class="swiper-button-prev-video flex items-center justify-center w-10 h-10 rounded-full bg-gray-800 dark:bg-gray-700 text-white hover:bg-gray-700 dark:hover:bg-gray-600 transition">
+                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                     </svg>
+                 </button>
+                 <button class="swiper-button-next-video flex items-center justify-center w-10 h-10 rounded-full bg-gray-800 dark:bg-gray-700 text-white hover:bg-gray-700 dark:hover:bg-gray-600 transition">
+                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                     </svg>
+                 </button>
+             </div>
+         </div>
+
+         <div class="swiper videoReviewsSwiper">
+             <div class="swiper-wrapper">
+
+                 <div class="swiper-slide w-[270px] sm:w-[290px] md:w-[320px] lg:w-[340px]">
+                     <div class="rounded-xl overflow-hidden  dark:shadow-xl bg-white dark:bg-[#1A1A1A] transition-all duration-300 flex flex-col h-full">
+                         <div class="w-full h-[280px] sm:h-[300px] md:h-[320px] lg:h-[340px] relative">
+                             <iframe class="absolute top-0 left-0 w-full h-full rounded-xl"
+                                 src="https://www.youtube.com/embed/nwINV2eh_7U"
+                                 allowfullscreen
+                                 loading="lazy"></iframe>
+                         </div>
+                         <div class="p-5 flex items-center gap-4">
+                             <img src="https://img.freepik.com/free-photo/headshot-serious-bearded-man_273609-8955.jpg"
+                                 alt="User"
+                                 class="w-14 h-14 rounded-full border-2 border-white dark:border-gray-700 shadow-md" />
+                             <div>
+                                 <p class="text-gray-900 dark:text-white font-semibold text-base sm:text-lg">Arun Kumar</p>
+                                 <div class="text-yellow-400 text-sm sm:text-base">
+                                     ★★★★☆ <span class="text-gray-500 dark:text-gray-300 ml-1">4.2</span>
+                                 </div>
+                             </div>
+                         </div>
+
+                     </div>
+                 </div>
+                 <div class="swiper-slide w-[270px] sm:w-[290px] md:w-[320px] lg:w-[340px]">
+                     <div class="rounded-xl overflow-hidden  dark:shadow-xl bg-white dark:bg-[#1A1A1A]  transition-all duration-300 flex flex-col h-full">
+
+
+                         <div class="w-full h-[280px] sm:h-[300px] md:h-[320px] lg:h-[340px] relative">
+                             <iframe class="absolute top-0 left-0 w-full h-full rounded-xl"
+                                 src="https://www.youtube.com/embed/nwINV2eh_7U"
+                                 allowfullscreen
+                                 loading="lazy"></iframe>
+                         </div>
+
+
+                         <div class="p-5 flex items-center gap-4">
+                             <img src="https://img.freepik.com/free-photo/headshot-serious-bearded-man_273609-8955.jpg"
+                                 alt="User"
+                                 class="w-14 h-14 rounded-full border-2 border-white dark:border-gray-700 shadow-md" />
+                             <div>
+                                 <p class="text-gray-900 dark:text-white font-semibold text-base sm:text-lg">Arun Kumar</p>
+                                 <div class="text-yellow-400 text-sm sm:text-base">
+                                     ★★★★☆ <span class="text-gray-500 dark:text-gray-300 ml-1">4.2</span>
+                                 </div>
+                             </div>
+                         </div>
+
+                     </div>
+                 </div>
+                 <div class="swiper-slide w-[270px] sm:w-[290px] md:w-[320px] lg:w-[340px]">
+                     <div class="rounded-xl overflow-hidden  dark:shadow-xl bg-white dark:bg-[#1A1A1A]  transition-all duration-300 flex flex-col h-full">
+
+
+                         <div class="w-full h-[280px] sm:h-[300px] md:h-[320px] lg:h-[340px] relative">
+                             <iframe class="absolute top-0 left-0 w-full h-full rounded-xl"
+                                 src="https://www.youtube.com/embed/nwINV2eh_7U"
+                                 allowfullscreen
+                                 loading="lazy"></iframe>
+                         </div>
+
+
+                         <div class="p-5 flex items-center gap-4">
+                             <img src="https://img.freepik.com/free-photo/headshot-serious-bearded-man_273609-8955.jpg"
+                                 alt="User"
+                                 class="w-14 h-14 rounded-full border-2 border-white dark:border-gray-700 shadow-md" />
+                             <div>
+                                 <p class="text-gray-900 dark:text-white font-semibold text-base sm:text-lg">Arun Kumar</p>
+                                 <div class="text-yellow-400 text-sm sm:text-base">
+                                     ★★★★☆ <span class="text-gray-500 dark:text-gray-300 ml-1">4.2</span>
+                                 </div>
+                             </div>
+                         </div>
+
+                     </div>
+                 </div>
+                 <div class="swiper-slide w-[270px] sm:w-[290px] md:w-[320px] lg:w-[340px]">
+                     <div class="rounded-xl overflow-hidden  dark:shadow-xl bg-white dark:bg-[#1A1A1A]  transition-all duration-300 flex flex-col h-full">
+
+
+                         <div class="w-full h-[280px] sm:h-[300px] md:h-[320px] lg:h-[340px] relative">
+                             <iframe class="absolute top-0 left-0 w-full h-full rounded-xl"
+                                 src="https://www.youtube.com/embed/nwINV2eh_7U"
+                                 allowfullscreen
+                                 loading="lazy"></iframe>
+                         </div>
+
+
+                         <div class="p-5 flex items-center gap-4">
+                             <img src="https://img.freepik.com/free-photo/headshot-serious-bearded-man_273609-8955.jpg"
+                                 alt="User"
+                                 class="w-14 h-14 rounded-full border-2 border-white dark:border-gray-700 shadow-md" />
+                             <div>
+                                 <p class="text-gray-900 dark:text-white font-semibold text-base sm:text-lg">Arun Kumar</p>
+                                 <div class="text-yellow-400 text-sm sm:text-base">
+                                     ★★★★☆ <span class="text-gray-500 dark:text-gray-300 ml-1">4.2</span>
+                                 </div>
+                             </div>
+                         </div>
+
+                     </div>
+                 </div>
+                 <div class="swiper-slide w-[270px] sm:w-[290px] md:w-[320px] lg:w-[340px]">
+                     <div class="rounded-xl overflow-hidden dark:shadow-xl bg-white dark:bg-[#1A1A1A]  transition-all duration-300 flex flex-col h-full">
+
+
+                         <div class="w-full h-[280px] sm:h-[300px] md:h-[320px] lg:h-[340px] relative">
+                             <iframe class="absolute top-0 left-0 w-full h-full rounded-xl"
+                                 src="https://www.youtube.com/embed/nwINV2eh_7U"
+                                 allowfullscreen
+                                 loading="lazy"></iframe>
+                         </div>
+
+
+                         <div class="p-5 flex items-center gap-4">
+                             <img src="https://img.freepik.com/free-photo/headshot-serious-bearded-man_273609-8955.jpg"
+                                 alt="User"
+                                 class="w-14 h-14 rounded-full border-2 border-white dark:border-gray-700 shadow-md" />
+                             <div>
+                                 <p class="text-gray-900 dark:text-white font-semibold text-base sm:text-lg">Arun Kumar</p>
+                                 <div class="text-yellow-400 text-sm sm:text-base">
+                                     ★★★★☆ <span class="text-gray-500 dark:text-gray-300 ml-1">4.2</span>
+                                 </div>
+                             </div>
+                         </div>
+
+                     </div>
+                 </div>
+                 <div class="swiper-slide w-[270px] sm:w-[290px] md:w-[320px] lg:w-[340px]">
+                     <div class="rounded-xl overflow-hidden  dark:shadow-xl bg-white dark:bg-[#1A1A1A]  transition-all duration-300 flex flex-col h-full">
+
+
+                         <div class="w-full h-[280px] sm:h-[300px] md:h-[320px] lg:h-[340px] relative">
+                             <iframe class="absolute top-0 left-0 w-full h-full !rounded-xl"
+                                 src="https://www.youtube.com/embed/nwINV2eh_7U"
+                                 allowfullscreen
+                                 loading="lazy"></iframe>
+                         </div>
+
+
+                         <div class="p-5 flex items-center gap-4">
+                             <img src="https://img.freepik.com/free-photo/headshot-serious-bearded-man_273609-8955.jpg"
+                                 alt="User"
+                                 class="w-14 h-14 rounded-full border-2 border-white dark:border-gray-700 shadow-md" />
+                             <div>
+                                 <p class="text-gray-900 dark:text-white font-semibold text-base sm:text-lg">Arun Kumar</p>
+                                 <div class="text-yellow-400 text-sm sm:text-base">
+                                     ★★★★☆ <span class="text-gray-500 dark:text-gray-300 ml-1">4.2</span>
+                                 </div>
+                             </div>
+                         </div>
+
+                     </div>
+                 </div>
+
+             </div>
+         </div>
+     </section>
+       <!-- upcoming MOVIES SECTIONS  -->
+     <section class="px-4 sm:px-6 md:px-10 lg:px-16 py-10  max-w-7xl mx-auto">
+
+         <h3 class="text-3xl !sm:text-xl font-bold flex gap-2 !mb-6 text-gray-900 dark:text-white">
+             Coming Soon / Upcoming Movies
+             <svg xmlns="http://www.w3.org/2000/svg" width="21" height="40" fill="currentColor">
+                 <path fill-rule="evenodd" clip-rule="evenodd"
+                     d="M8.88911 14.9994C3.37383 10.5446 0.73813 4.55253 0 0.345635L1.96991 0C2.63631 3.79806 5.05691 9.33313 10.1458 13.4436C12.861 15.6367 16.3628 17.4461 20.8135 18.3595V21.6434C16.3628 22.5568 12.861 24.3662 10.1458 26.5593C5.05691 30.6698 2.63631 36.2048 1.96991 40.0029L0 39.6573C0.73813 35.4504 3.37383 29.4583 8.88911 25.0035C11.5757 22.8334 14.9236 21.0459 19.0292 20.0014C14.9236 18.957 11.5757 17.1695 8.88911 14.9994Z" />
+             </svg>
+         </h3>
+
+         <!-- Swiper Container -->
+         <div class="swiper upcomingmoviesswiper ">
+             <div class="swiper-wrapper" id="upcoming-movies">
+                 <!-- Slides inserted dynamically via JS -->
+             </div>
+
+             <!-- Navigation Buttons -->
+             <div class="swiper-button-prev disabled:opacity-50 disabled:pointer-events-none bg-gray-800 w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center border border-gray-300 transition hover:bg-gray-700 dark:hover:bg-gray-600 after:text-white after:text-xl"></div>
+
+             <div class="swiper-button-next disabled:opacity-50 disabled:pointer-events-none bg-gray-800 w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center border border-gray-300 transition hover:bg-gray-700 dark:hover:bg-gray-600 after:text-white after:text-xl"></div>
+         </div>
+
+     </section>
+
+     <!-- all category section  -->
+     <div class="px-4 sm:px-6 md:px-10 lg:px-16 py-10 bg-white dark:bg-black max-w-7xl mx-auto">
+         <div class="flex justify-between items-center mb-6">
+             <h3 class="text-3xl !sm:text-xl font-bold flex gap-2 !mb-6 text-gray-900 dark:text-white">
+                 Browse by category
+                 <svg xmlns="http://www.w3.org/2000/svg" width="21" height="40" fill="currentColor">
+                     <path fill-rule="evenodd" clip-rule="evenodd"
+                         d="M8.88911 14.9994C3.37383 10.5446 0.73813 4.55253 0 0.345635L1.96991 0C2.63631 3.79806 5.05691 9.33313 10.1458 13.4436C12.861 15.6367 16.3628 17.4461 20.8135 18.3595V21.6434C16.3628 22.5568 12.861 24.3662 10.1458 26.5593C5.05691 30.6698 2.63631 36.2048 1.96991 40.0029L0 39.6573C0.73813 35.4504 3.37383 29.4583 8.88911 25.0035C11.5757 22.8334 14.9236 21.0459 19.0292 20.0014C14.9236 18.957 11.5757 17.1695 8.88911 14.9994Z" />
+                 </svg>
+             </h3>
+
+             <div class="flex gap-3 items-center">
+                 <button class="swiper-button-prev-category flex items-center justify-center w-10 h-10 rounded-full bg-gray-800 dark:bg-gray-700 text-white hover:bg-gray-700 dark:hover:bg-gray-600 transition">
+                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                     </svg>
+                 </button>
+                 <button class="swiper-button-next-category flex items-center justify-center w-10 h-10 rounded-full bg-gray-800 dark:bg-gray-700 text-white hover:bg-gray-700 dark:hover:bg-gray-600 transition">
+                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                     </svg>
+                 </button>
+             </div>
+         </div>
+         <?php
+            $genreImages = [
+                ['id' => 1, 'name' => 'Action',    'image' => 'assets/genres/action.jpg'],
+                ['id' => 2, 'name' => 'Adventure', 'image' => 'assets/genres/adventure.jpg'],
+                ['id' => 3, 'name' => 'Animation', 'image' => 'assets/genres/animation.jpg'],
+                ['id' => 4, 'name' => 'Comedy',    'image' => 'assets/genres/comedy 3.jpg'],
+                ['id' => 5, 'name' => 'Crime',     'image' => 'assets/genres/crime.jpg'],
+                ['id' => 6, 'name' => 'Family',    'image' => 'assets/genres/family.jpg'],
+                ['id' => 7, 'name' => 'Fantasy',   'image' => 'assets/genres/fantacy.jpg'],
+                ['id' => 8, 'name' => 'History',   'image' => 'assets/genres/history.jpg'],
+                ['id' => 9, 'name' => 'Horror',    'image' => 'assets/genres/horror.jpg'],
+                ['id' => 10, 'name' => 'Music',    'image' => 'assets/genres/musicn-2.jpg'],
+                ['id' => 11, 'name' => 'Romance',  'image' => 'assets/genres/romance.jpg'],
+                ['id' => 12, 'name' => 'Science',  'image' => 'assets/genres/science.jpg'],
+                ['id' => 13, 'name' => 'War',      'image' => 'assets/genres/war.jpg'],
+            ];
+            ?>
+         <div class="swiper categories-slider">
+             <div class="swiper-wrapper">
+                 <?php foreach ($genreImages as $genre): ?>
+                     <div class="swiper-slide w-[260px] sm:w-[270px] md:w-[280px] lg:w-[290px] h-[300px]">
+                         <div class="relative !rounded-[20px] overflow-hidden !p-[2px] bg-gradient-to-br from-gray-800 to-gray-900 
+              group hover:from-[#F44336] hover:via-[#FFC107] hover:to-[#4CAF50] transition-all duration-500 shadow-md dark:shadow-xl">
+
+                             <!-- Inner card -->
+                             <div class="bg-white dark:bg-[#111] rounded-[1rem] h-full p-2 flex flex-col justify-between">
+
+                                 <!-- Image -->
+                                 <div class="relative w-full h-[190px] rounded-lg overflow-hidden">
+                                     <div class="relative group rounded-lg overflow-hidden w-full h-full">
+                                         <img src="<?= htmlspecialchars($genre['image']) ?>" alt="<?= htmlspecialchars($genre['name']) ?>"
+                                             class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
+                                         <div class="absolute inset-0 bg-gradient-to-br from-[#2C3E50] to-[#F9D342] opacity-50 pointer-events-none"></div>
+                                     </div>
+                                 </div>
+
+                                 <!-- Title + Button -->
+                                 <div class="flex items-center justify-between px-4 py-3">
+                                     <p class="text-black dark:text-white text-sm md:text-base font-semibold truncate">
+                                         <?= htmlspecialchars($genre['name']) ?>
+                                     </p>
+                                     <a href="movie-list.php?genre_id=<?= urlencode($genre['id']) ?>"
+                                         class="bg-white text-black rounded-full p-2 hover:text-white hover:bg-gradient-to-r 
+                  hover:from-[#F44336] hover:via-[#FFC107] hover:to-[#4CAF50] transition">
+                                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 25 18">
+                                             <path fill-rule="evenodd" clip-rule="evenodd"
+                                                 d="M16.34.764V0h-1.53v.764a8.45 8.45 0 002.53 6.342H0v1.528h17.34a8.45 8.45 0 00-2.53 6.342v.764h1.53v-.764c0-3.755 3.33-7.33 7.32-7.342h1.09V8.106h-1.09c-3.99-.018-7.32-3.59-7.32-7.342Z" />
+                                         </svg>
+                                     </a>
+                                 </div>
+
+                             </div>
+                         </div>
+                     </div>
+
+                 <?php endforeach; ?>
+             </div>
+         </div>
+     </div>
+
+
+
+
+
+
+   
+
+
+
+     <!-- box office collections -->
+     <div class="px-4 sm:px-6 md:px-10 lg:px-16 py-10  max-w-7xl mx-auto">
+
+
+
+         <h3 class="text-3xl !sm:text-xl font-bold flex gap-2 !mb-6 text-gray-900 dark:text-white">
+             Box Office Hits
+             <svg xmlns="http://www.w3.org/2000/svg" width="21" height="40" fill="currentColor">
+                 <path fill-rule="evenodd" clip-rule="evenodd"
+                     d="M8.88911 14.9994C3.37383 10.5446 0.73813 4.55253 0 0.345635L1.96991 0C2.63631 3.79806 5.05691 9.33313 10.1458 13.4436C12.861 15.6367 16.3628 17.4461 20.8135 18.3595V21.6434C16.3628 22.5568 12.861 24.3662 10.1458 26.5593C5.05691 30.6698 2.63631 36.2048 1.96991 40.0029L0 39.6573C0.73813 35.4504 3.37383 29.4583 8.88911 25.0035C11.5757 22.8334 14.9236 21.0459 19.0292 20.0014C14.9236 18.957 11.5757 17.1695 8.88911 14.9994Z" />
+             </svg>
+         </h3>
+         <div class="flex text-sm font-lowball text-center text-gray-500 mb-6">
+             <input type="radio" name="tab" id="tab1" class="hidden" checked>
+             <label for="tab1" class="tab-label-box-office border-b-2 text-gray-900 dark:text-white border-transparent px-4 py-2 cursor-pointer text-base font-[600] uppercase tracking-[2px]" data-tabboxoffice="weeks">
+                 This Week
+             </label>
+             <input type="radio" name="tab" id="tab2" class="hidden">
+             <label for="tab2" class="tab-label-box-office border-b-2 text-gray-900 dark:text-white border-transparent px-4 py-2 cursor-pointer text-base font-[600] uppercase tracking-[2px]" data-tabboxoffice="months">
+                 This Month
+             </label>
+         </div>
+         <div class="swiper boxoffice-swiper">
+             <div class="swiper-wrapper" id="boxoffice-container"></div>
+             <!-- <div class="swiper-button-next !bg-gray-600 !w-10 !h-10 rounded-full after:!text-white after:!text-2xl"></div>
+             <div class="swiper-button-prev !bg-gray-600 !w-10 !h-10 rounded-full after:!text-white after:!text-2xl"></div> -->
+         </div>
+
+
+
+         <div id="weeks" class="tab-content-box-office px-4 py-6 relative">
+
+             <!-- <div class="swiper-button-prev !w-[30px] !h-[30px]  rounded-[50%] bg-white/40 hover:bg-black/60 transition-all duration-300 flex items-center justify-center absolute top-1/2 -translate-y-1/2 z-10"></div>
+             <div class="swiper-button-next !w-[30px] !h-[30px] !right-2 !rounded-[50%] bg-white/40 hover:bg-black/60 transition-all duration-300 flex items-center justify-center absolute top-1/2 -translate-y-1/2 z-10"></div> -->
+             <div class="swiper enhanced-movie-swiper ">
+                 <div class="swiper-wrapper" id="box-office-slider">
+
+                 </div>
+                 <div class="swiper-button-next !bg-gray-600 !w-10 !h-10 rounded-full after:!text-white after:!text-2xl"></div>
+                 <div class="swiper-button-prev !bg-gray-600 !w-10 !h-10 rounded-full after:!text-white after:!text-2xl"></div>
+             </div>
+         </div>
+         <div id="months" class="tab-content-box-office lg:px-4 lg:py-6 md:px-2 md:py-4 relative">
+
+             <div class="swiper-button-prev !w-[30px] !h-[30px]  rounded-[50%] bg-white/40 hover:bg-black/60 transition-all duration-300 flex items-center justify-center absolute top-1/2 -translate-y-1/2 z-10"></div>
+             <div class="swiper-button-next !w-[30px] !h-[30px] !right-2 !rounded-[50%] bg-white/40 hover:bg-black/60 transition-all duration-300 flex items-center justify-center absolute top-1/2 -translate-y-1/2 z-10"></div>
+             <div class="swiper mySwiper">
+                 <div class="swiper-wrapper">
+
+                 </div>
+             </div>
+         </div>
+         <div id="years" class="tab-content-box-office px-4 py-6 relative">
+
+             <div class="swiper-button-prev !w-[30px] !h-[30px]  rounded-[50%] bg-white/40 hover:bg-black/60 transition-all duration-300 flex items-center justify-center absolute top-1/2 -translate-y-1/2 z-10"></div>
+             <div class="swiper-button-next !w-[30px] !h-[30px] !right-2 !rounded-[50%] bg-white/40 hover:bg-black/60 transition-all duration-300 flex items-center justify-center absolute top-1/2 -translate-y-1/2 z-10"></div>
+             <div class="swiper mySwiper">
+                 <div class="swiper-wrapper">
+
+
+                     <div class="swiper-slide flex gap-3 !min-w-[250px] !min-h-[400px] !w-[250px]">
+                         <div class="!bg-[#111] !text-white !rounded-xl !overflow-hidden !shadow-lg hover:!shadow-xl !transition !duration-300 !min-w-[220px] !snap-start">
+
+                             <!-- Image -->
+                             <div class="relative">
+                                 <img src="assets/images/Ne Zha 2.png"
+                                     alt="Aladdin" class="!w-full !h-60 !object-cover">
+
+                                 <!-- Rating -->
+                                 <div class="absolute top-2 left-2 bg-black/80 text-yellow-400 text-[11px] px-2 py-1 rounded flex items-center gap-1 shadow-sm backdrop-blur-sm">
+                                     <i class="fa-solid fa-star text-[12px]"></i><span>8.4/10</span>
+                                 </div>
+
+                                 <!-- Bookmark -->
+                                 <button class="absolute top-2 !right-2 !bg-black/70 !rounded-[8px] !p-2 !hover:bg-black/90 !transition-all duration-200 !shadow-sm !backdrop-blur-sm">
+                                     <i class="fa fa-bookmark text-yellow-400 text-[13px]"></i>
+                                 </button>
+                             </div>
+
+                             <!-- Card Details -->
+                             <div class="!p-3 !space-y-1.5">
+
+                                 <h4 class="!text-[17px] !font-semibold text-white leading-snug">Ne Zha 2 </h4>
+
+                                 <div class="!flex !gap-[2px] !text-sm !leading-[1.2] !text-gray-300 !m-0">
+                                     <p>Weekly Collection: <span class="text-white"><i class="fa fa-dollar-sign"></i> 2.2 Billion </span></p>
+                                 </div>
+
+                                 <!-- Bordered Info Section -->
+                                 <div class="!flex !flex-col  !text-sm text-gray-300 leading-tight  ">
+                                     <p class="flex-1  !m-0">Release: <span class="text-white">Mar 2025 </span></p>
+                                     <p class="flex-1   !m-0">Genre: <span class="text-white">Animation , Fantasy </span></p>
+                                     <!-- <p class="flex-1 text-right ">Genre: <span class="text-white">Action, Thriller</span></p> -->
+                                 </div>
+                                 <hr class="text-gray-700">
+                                 <p class="!text-sm !text-gray-400 text-center mt-1 leading-snug !font-semibold">
+                                     “ Record-breaking animated film ”
+                                 </p>
+
+                                 <!-- CTA Buttons -->
+                                 <div class="!flex !flex-col !gap-2 mt-2">
+                                     <button class="!flex !items-center !justify-center !gap-2 !px-3 !py-1.5 !bg-yellow-500 !text-black !font-semibold !text-[13px] !rounded-md !shadow hover:!bg-yellow-400 !transition !duration-200">
+                                         Rate this Movie <i class="fas fa-arrow-up-right-from-square text-[12px] mt-[1px]"></i>
+                                     </button>
+                                     <button class="!flex !items-center !justify-center !gap-2 !px-3 !py-1.5 !bg-transparent !text-white !font-semibold !text-[13px] !rounded-md !border !border-white/20 hover:!bg-white/10 !transition !duration-200  watch-trailer-btn">
+                                         Watch Trailer <i class="fas fa-play text-[11px] mt-[1px]"></i>
+                                     </button>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+                     <div class="swiper-slide flex gap-3 !min-w-[250px] !min-h-[400px]">
+                         <div class="!bg-[#111] !text-white !rounded-xl !overflow-hidden !shadow-lg hover:!shadow-xl !transition !duration-300 !min-w-[220px] !snap-start">
+
+                             <!-- Image -->
+                             <div class="relative">
+                                 <img src="assets/images/A Minecraft Movie.png"
+                                     alt="Aladdin" class="!w-full !h-60 !object-cover">
+
+                                 <!-- Rating -->
+                                 <div class="absolute top-2 left-2 bg-black/80 text-yellow-400 text-[11px] px-2 py-1 rounded flex items-center gap-1 shadow-sm backdrop-blur-sm">
+                                     <i class="fa-solid fa-star text-[12px]"></i><span> 7.0/10</span>
+                                 </div>
+
+                                 <!-- Bookmark -->
+                                 <button class="absolute top-2 !right-2 !bg-black/70 !rounded-[8px] !p-2 !hover:bg-black/90 !transition-all duration-200 !shadow-sm !backdrop-blur-sm">
+                                     <i class="fa fa-bookmark text-yellow-400 text-[13px]"></i>
+                                 </button>
+                             </div>
+
+                             <!-- Card Details -->
+                             <div class="!p-3 !space-y-1.5">
+
+                                 <h4 class="!text-[17px] !font-semibold text-white leading-snug"> A Minecraft Movie </h4>
+
+                                 <div class="!flex !gap-[2px] !text-sm !leading-[1.2] !text-gray-300 !m-0">
+                                     <p>Weekly Collection: <span class="text-white"><i class="fa fa-indian-rupee-sign"></i> 951 Million </span></p>
+                                 </div>
+
+                                 <!-- Bordered Info Section -->
+                                 <div class="!flex !flex-col  !text-sm text-gray-300 leading-tight  ">
+                                     <p class="flex-1  !m-0">Release: <span class="text-white">Apr 4, 2025 </span></p>
+                                     <p class="flex-1   !m-0">Genre: <span class="text-white">Family , Adventure</span></p>
+                                     <!-- <p class="flex-1 text-right ">Genre: <span class="text-white">Action, Thriller</span></p> -->
+                                 </div>
+                                 <hr class="text-gray-700">
+                                 <p class="!text-sm !text-gray-400 text-center mt-1 leading-snug !font-semibold">
+                                     “ Popular game, family appeal ”
+                                 </p>
+
+                                 <!-- CTA Buttons -->
+                                 <div class="!flex !flex-col !gap-2 mt-2">
+                                     <button class="!flex !items-center !justify-center !gap-2 !px-3 !py-1.5 !bg-yellow-500 !text-black !font-semibold !text-[13px] !rounded-md !shadow hover:!bg-yellow-400 !transition !duration-200">
+                                         Rate this Movie <i class="fas fa-arrow-up-right-from-square text-[12px] mt-[1px]"></i>
+                                     </button>
+                                     <button class="!flex !items-center !justify-center !gap-2 !px-3 !py-1.5 !bg-transparent !text-white !font-semibold !text-[13px] !rounded-md !border !border-white/20 hover:!bg-white/10 !transition !duration-200">
+                                         Watch Trailer <i class="fas fa-play text-[11px] mt-[1px]"></i>
+                                     </button>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+                     <div class="swiper-slide flex gap-3 !min-w-[250px] !min-h-[400px]">
+                         <div class="!bg-[#111] !text-white !rounded-xl !overflow-hidden !shadow-lg hover:!shadow-xl !transition !duration-300 !min-w-[220px] !snap-start">
+
+                             <!-- Image -->
+                             <div class="relative">
+                                 <img src="assets/images/missionimpossible.png"
+                                     alt="Aladdin" class="!w-full !h-60 !object-cover">
+
+                                 <!-- Rating -->
+                                 <div class="absolute top-2 left-2 bg-black/80 text-yellow-400 text-[11px] px-2 py-1 rounded flex items-center gap-1 shadow-sm backdrop-blur-sm">
+                                     <i class="fa-solid fa-star text-[12px]"></i><span>7.8/10</span>
+                                 </div>
+
+                                 <!-- Bookmark -->
+                                 <button class="absolute top-2 !right-2 !bg-black/70 !rounded-[8px] !p-2 !hover:bg-black/90 !transition-all duration-200 !shadow-sm !backdrop-blur-sm">
+                                     <i class="fa fa-bookmark text-yellow-400 text-[13px]"></i>
+                                 </button>
+                             </div>
+
+                             <!-- Card Details -->
+                             <div class="!p-3 !space-y-1.5">
+
+                                 <h4 class="!text-[17px] !font-semibold text-white leading-snug">Mission: Impossible – Final Reckoning </h4>
+
+                                 <div class="!flex !gap-[2px] !text-sm !leading-[1.2] !text-gray-300 !m-0">
+                                     <p>Weekly Collection: <span class="text-white"><i class="fa-solid fa-indian-rupee-sign"></i> 456 Million </span></p>
+                                 </div>
+
+                                 <!-- Bordered Info Section -->
+                                 <div class="!flex !flex-col  !text-sm text-gray-300 leading-tight  ">
+                                     <p class="flex-1  !m-0">Release: <span class="text-white">Jun 2025 </span></p>
+                                     <p class="flex-1   !m-0">Genre: <span class="text-white">Action ,Spy Thriller</span></p>
+                                     <!-- <p class="flex-1 text-right ">Genre: <span class="text-white">Action, Thriller</span></p> -->
+                                 </div>
+                                 <hr class="text-gray-700">
+                                 <p class="!text-sm !text-gray-400 text-center mt-1 leading-snug !font-semibold">
+                                     “ Franchise action, global fans ”
+                                 </p>
+
+                                 <!-- CTA Buttons -->
+                                 <div class="!flex !flex-col !gap-2 mt-2">
+                                     <button class="!flex !items-center !justify-center !gap-2 !px-3 !py-1.5 !bg-yellow-500 !text-black !font-semibold !text-[13px] !rounded-md !shadow hover:!bg-yellow-400 !transition !duration-200">
+                                         Rate this Movie <i class="fas fa-arrow-up-right-from-square text-[12px] mt-[1px]"></i>
+                                     </button>
+                                     <button class="!flex !items-center !justify-center !gap-2 !px-3 !py-1.5 !bg-transparent !text-white !font-semibold !text-[13px] !rounded-md !border !border-white/20 hover:!bg-white/10 !transition !duration-200">
+                                         Watch Trailer <i class="fas fa-play text-[11px] mt-[1px]"></i>
+                                     </button>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+
+
+
+
+
+
+
+
+
+
+
+                 </div>
+             </div>
+         </div>
+         <div id="alltimes" class="tab-content-box-office px-4 py-6 relative">
+
+             <div class="swiper-button-prev !w-[30px] !h-[30px]  rounded-[50%] bg-white/40 hover:bg-black/60 transition-all duration-300 flex items-center justify-center absolute top-1/2 -translate-y-1/2 z-10"></div>
+             <div class="swiper-button-next !w-[30px] !h-[30px] !right-2 !rounded-[50%] bg-white/40 hover:bg-black/60 transition-all duration-300 flex items-center justify-center absolute top-1/2 -translate-y-1/2 z-10"></div>
+             <div class="swiper mySwiper">
+                 <div class="swiper-wrapper">
+
+
+                     <div class="swiper-slide flex gap-3 !min-w-[250px] !min-h-[400px]">
+                         <div class="!bg-[#111] !text-white !rounded-xl !overflow-hidden !shadow-lg hover:!shadow-xl !transition !duration-300 !min-w-[220px] !snap-start">
+
+                             <!-- Image -->
+                             <div class="relative">
+                                 <img src="assets/images/avatar.png"
+                                     alt="Aladdin" class="!w-full !h-60 !object-cover">
+
+                                 <!-- Rating -->
+                                 <div class="absolute top-2 left-2 bg-black/80 text-yellow-400 text-[11px] px-2 py-1 rounded flex items-center gap-1 shadow-sm backdrop-blur-sm">
+                                     <i class="fa-solid fa-star text-[12px]"></i><span> 7.9/10</span>
+                                 </div>
+
+                                 <!-- Bookmark -->
+                                 <button class="absolute top-2 !right-2 !bg-black/70 !rounded-[8px] !p-2 !hover:bg-black/90 !transition-all duration-200 !shadow-sm !backdrop-blur-sm">
+                                     <i class="fa fa-bookmark text-yellow-400 text-[13px]"></i>
+                                 </button>
+                             </div>
+
+                             <!-- Card Details -->
+                             <div class="!p-3 !space-y-1.5">
+
+                                 <h4 class="!text-[17px] !font-semibold text-white leading-snug">Avatar</h4>
+
+                                 <div class="!flex !gap-[2px] !text-sm !leading-[1.2] !text-gray-300 !m-0">
+                                     <p>Weekly Collection: <span class="text-white"><i class="fa fa-dollar-sign"></i> 2.92 B </span></p>
+                                 </div>
+
+                                 <!-- Bordered Info Section -->
+                                 <div class="!flex !flex-col  !text-sm text-gray-300 leading-tight  ">
+                                     <p class="flex-1  !m-0">Release: <span class="text-white">2009 </span></p>
+                                     <p class="flex-1   !m-0">Genre: <span class="text-white">Sci-Fi , Fantasy</span></p>
+                                     <!-- <p class="flex-1 text-right ">Genre: <span class="text-white">Action, Thriller</span></p> -->
+                                 </div>
+                                 <hr class="text-gray-700">
+                                 <p class="!text-sm !text-gray-400 text-center mt-1 leading-snug !font-semibold">
+                                     “ Visual spectacle + immersive experience ”
+                                 </p>
+
+                                 <!-- CTA Buttons -->
+                                 <div class="!flex !flex-col !gap-2 mt-2">
+                                     <button class="!flex !items-center !justify-center !gap-2 !px-3 !py-1.5 !bg-yellow-500 !text-black !font-semibold !text-[13px] !rounded-md !shadow hover:!bg-yellow-400 !transition !duration-200">
+                                         Rate this Movie <i class="fa-solid fa-arrow-up-right-from-square text-[12px] mt-[1px]"></i>
+                                     </button>
+                                     <button class="!flex !items-center !justify-center !gap-2 !px-3 !py-1.5 !bg-transparent !text-white !font-semibold !text-[13px] !rounded-md !border !border-white/20 hover:!bg-white/10 !transition !duration-200">
+                                         Watch Trailer <i class="fas fa-play text-[12px] mt-[1px]"></i>
+                                     </button>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+                     <div class="swiper-slide flex gap-3 !min-w-[250px] !min-h-[400px]">
+                         <div class="!bg-[#111] !text-white !rounded-xl !overflow-hidden !shadow-lg hover:!shadow-xl !transition !duration-300 !min-w-[220px] !snap-start">
+
+                             <!-- Image -->
+                             <div class="relative">
+                                 <img src="assets/images/Ne Zha 2.png"
+                                     alt="Aladdin" class="!w-full !h-60 !object-cover">
+
+                                 <!-- Rating -->
+                                 <div class="absolute top-2 left-2 bg-black/80 text-yellow-400 text-[11px] px-2 py-1 rounded flex items-center gap-1 shadow-sm backdrop-blur-sm">
+                                     <i class="fa-solid fa-star text-[12px]"></i><span>8.4/10</span>
+                                 </div>
+
+                                 <!-- Bookmark -->
+                                 <button class="absolute top-2 !right-2 !bg-black/70 !rounded-[8px] !p-2 !hover:bg-black/90 !transition-all duration-200 !shadow-sm !backdrop-blur-sm">
+                                     <i class="fa fa-bookmark text-yellow-400 text-[13px]"></i>
+                                 </button>
+                             </div>
+
+                             <!-- Card Details -->
+                             <div class="!p-3 !space-y-1.5">
+
+                                 <h4 class="!text-[17px] !font-semibold text-white leading-snug">Ne Zha 2 </h4>
+
+                                 <div class="!flex !gap-[2px] !text-sm !leading-[1.2] !text-gray-300 !m-0">
+                                     <p>Weekly Collection: <span class="text-white"><i class="fa fa-dollar-sign"></i> 2.2 Billion </span></p>
+                                 </div>
+
+                                 <!-- Bordered Info Section -->
+                                 <div class="!flex !flex-col  !text-sm text-gray-300 leading-tight  ">
+                                     <p class="flex-1  !m-0">Release: <span class="text-white">Mar 2025 </span></p>
+                                     <p class="flex-1   !m-0">Genre: <span class="text-white">Animation , Fantasy </span></p>
+                                     <!-- <p class="flex-1 text-right ">Genre: <span class="text-white">Action, Thriller</span></p> -->
+                                 </div>
+                                 <hr class="text-gray-700">
+                                 <p class="!text-sm !text-gray-400 text-center mt-1 leading-snug !font-semibold">
+                                     “ Record-breaking animated film ”
+                                 </p>
+
+                                 <!-- CTA Buttons -->
+                                 <div class="!flex !flex-col !gap-2 mt-2">
+                                     <button class="!flex !items-center !justify-center !gap-2 !px-3 !py-1.5 !bg-yellow-500 !text-black !font-semibold !text-[13px] !rounded-md !shadow hover:!bg-yellow-400 !transition !duration-200">
+                                         Rate this Movie <i class="fa-solid fa-arrow-up-right-from-square text-[12px] mt-[1px]"></i>
+                                     </button>
+                                     <button class="!flex !items-center !justify-center !gap-2 !px-3 !py-1.5 !bg-transparent !text-white !font-semibold !text-[13px] !rounded-md !border !border-white/20 hover:!bg-white/10 !transition !duration-200">
+                                         Watch Trailer <i class="fas fa-play text-[12px] mt-[1px]"></i>
+                                     </button>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+
+
+
+
+
+
+
+
+
+
+
+                 </div>
+             </div>
+         </div>
+
+
+
+
+
+     </div>
+
+
+     <!-- top 5 masal meter -->
+     <section class="px-4 sm:px-6 md:px-10 lg:px-16 py-10  max-w-7xl mx-auto">
+
+         <h3 class="text-3xl !sm:text-xl font-bold flex gap-2 !mb-6 text-gray-900 dark:text-white">
+            Top 3 this week 
+             <svg xmlns="http://www.w3.org/2000/svg" width="21" height="40" fill="currentColor">
+                 <path fill-rule="evenodd" clip-rule="evenodd"
+                     d="M8.88911 14.9994C3.37383 10.5446 0.73813 4.55253 0 0.345635L1.96991 0C2.63631 3.79806 5.05691 9.33313 10.1458 13.4436C12.861 15.6367 16.3628 17.4461 20.8135 18.3595V21.6434C16.3628 22.5568 12.861 24.3662 10.1458 26.5593C5.05691 30.6698 2.63631 36.2048 1.96991 40.0029L0 39.6573C0.73813 35.4504 3.37383 29.4583 8.88911 25.0035C11.5757 22.8334 14.9236 21.0459 19.0292 20.0014C14.9236 18.957 11.5757 17.1695 8.88911 14.9994Z" />
+             </svg>
+         </h3>
+         <div class="swiper-button-prev-top-5 !w-[30px] !h-[30px]  rounded-[50%] bg-white/40 hover:bg-black/60 transition-all duration-300 flex items-center justify-center absolute top-1/2 -translate-y-1/2 z-10"></div>
+         <div class="swiper-button-next-top-5 !w-[30px] !h-[30px] !right-2 !rounded-[50%] bg-white/40 hover:bg-black/60 transition-all duration-300 flex items-center justify-center absolute top-1/2 -translate-y-1/2 z-10"></div>
+         <div class="swiper top-movies-weeks">
+             <div class="swiper-wrapper" id="boxoffice-top3">
+
+             </div>
+             <div class="swiper-button-next !bg-gray-600 !w-10 !h-10 rounded-full after:!text-white after:!text-2xl"></div>
+             <div class="swiper-button-prev !bg-gray-600 !w-10 !h-10 rounded-full after:!text-white after:!text-2xl"></div>
+
+         </div>
+     </section>
+
+
+
+
+
+
+     <!-- Start Newest Release Slider Area -->
+     <div class="px-4 sm:px-6 md:px-10 lg:px-16 py-10  max-w-7xl mx-auto">
+         <h3 class="text-3xl !sm:text-xl font-bold flex gap-2 !mb-6 text-gray-900 dark:text-white">
+             Newest releases
+             <svg xmlns="http://www.w3.org/2000/svg" width="21" height="40" fill="currentColor">
+                 <path fill-rule="evenodd" clip-rule="evenodd"
+                     d="M8.88911 14.9994C3.37383 10.5446 0.73813 4.55253 0 0.345635L1.96991 0C2.63631 3.79806 5.05691 9.33313 10.1458 13.4436C12.861 15.6367 16.3628 17.4461 20.8135 18.3595V21.6434C16.3628 22.5568 12.861 24.3662 10.1458 26.5593C5.05691 30.6698 2.63631 36.2048 1.96991 40.0029L0 39.6573C0.73813 35.4504 3.37383 29.4583 8.88911 25.0035C11.5757 22.8334 14.9236 21.0459 19.0292 20.0014C14.9236 18.957 11.5757 17.1695 8.88911 14.9994Z" />
+             </svg>
+         </h3>
+         <div class="swiper newest-release">
+
+
+             <div class="swiper-wrapper ">
+
+                 <div class="swiper-slide">
+
+                     <div class="flex px-4" id="newest-bollywood-container">
+                         <div class="relative group rounded-2xl overflow-hidden  shadow-lg bg-black movie-card w-[100%]">
+                             <img src="assets/images/trending/trending-17.webp" alt="Movie"
+                                 class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+
+                             <a href="assets/video/video.mp4"
+                                 class="absolute inset-0 flex items-center  justify-center movie-overlay z-20">
+                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white" viewBox="0 0 16 19">
+                                     <path
+                                         d="M14.249 7.49136C15.5132 8.27308 15.5132 10.1118 14.249 10.8935L3.05184 17.8171C1.71942 18.641 0 17.6826 0 16.1161V2.2688C0 0.702239 1.71942 -0.256149 3.05184 0.567735L14.249 7.49136Z" />
+                                 </svg>
+                             </a>
+
+
+                             <div
+                                 class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black via-black/70 to-transparent p-4 text-white z-30 movie-details">
+                                 <h4 class="text-sm font-bold uppercase gradient-link">The Ark Menace</h4>
+                                 <ul class="text-sm flex gap-3 opacity-80">
+                                     <li class="flex items-center gap-1"><img src="assets/images/icons/card/star-fill.svg" class="w-3" /> 7.9</li>
+                                     <li class="flex items-center gap-1"><img src="assets/images/icons/card/clock-fill.svg" class="w-3" /> 02h 00m</li>
+                                     <li class="flex items-center gap-1"><img src="assets/images/icons/card/4k-fill.svg" class="w-3" /> 4K</li>
+                                 </ul>
+                                 <p class="text-sm">Menace, Comedy</p>
+                             </div>
+
+                             <div class="absolute top-1/2 right-2 -translate-y-1/2 flex flex-col gap-10 z-40">
+                                 <button class="bg-white/20 hover:bg-white/40 w-16 h-16 rounded-full flex items-center justify-center transition-all">
+                                     <img src="assets/images/icons/card/add-playlist.svg" alt="playlist" class="w-14 h-14" />
+                                 </button>
+                                 <button class="bg-white/20 hover:bg-white/40 w-16 h-16 rounded-full flex items-center justify-center transition-all">
+                                     <img src="assets/images/icons/card/casting.svg" alt="casting" class="w-14 h-14" />
+                                 </button>
+                                 <button class="bg-white/20 hover:bg-white/40 w-16 h-16 rounded-full flex items-center justify-center transition-all">
+                                     <img src="assets/images/icons/card/add-favourite.svg" alt="favourite" class="w-14 h-14" />
+                                 </button>
+                                 <button class="bg-white/20 hover:bg-white/40 w-16 h-16 rounded-full flex items-center justify-center transition-all">
+                                     <img src="assets/images/icons/card/share.svg" alt="share" class="w-14 h-14" />
+                                 </button>
+                             </div>
+
+
+                         </div>
+                     </div>
+                 </div>
+
+
+             </div>
+         </div>
+     </div>
+
+
+     <!-- Join Us CTA Section -->
+     <!-- Join Our Review Community CTA -->
+     <section class="dark:bg-[#0f0f0f] bg-white py-16 px-4 sm:px-6 lg:px-8 border-t border-b border-gray-800">
+         <div class="max-w-7xl mx-auto">
+             <div class="flex flex-col lg:flex-row items-center gap-10 lg:gap-16">
+                 <!-- Left Side - Image -->
+                 <div class="w-full lg:w-1/2 relative">
+                     <div class="relative overflow-hidden rounded-lg shadow-xl border border-gray-700 hover:border-yellow-500 transition-all duration-300">
+                         <img
+                             src="assets/images/join-us.avif"
+                             alt="Movie critics discussing ratings"
+                             class="w-full h-auto object-cover transform hover:scale-102 transition duration-500">
+                         <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+                         <div class="absolute bottom-0 left-0 right-0 p-6">
+                             <div class="flex items-center !sm:flex-col">
+                                 <div class="flex-shrink-0">
+                                     <div class="bg-yellow-500 text-black font-bold text-sm px-3 py-1 rounded-md flex items-center">
+                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                                             <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                         </svg>
+                                         TOP REVIEWERS
+                                     </div>
+                                 </div>
+                                 <div class="ml-3 text-white text-sm font-medium">
+                                     "Your ratings shape the industry"
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+
+                 <!-- Right Side - Text Content -->
+                 <div class="w-full lg:w-1/2 text-white">
+                     <h2 class="!text-[40px] !sm:text-4xl text-black dark:text-white font-bold mb-5 leading-tight">
+                         Become a <span class="text-yellow-500">Certified Critic</span>
+                     </h2>
+
+                     <p class="dark:text-gray-300 text-gray-900 text-lg mb-7">
+                         Join our community of movie enthusiasts and make your ratings count. Your reviews help millions decide what to watch next.
+                     </p>
+
+                     <div class="space-y-5 mb-8">
+                         <div class="flex items-start">
+                             <div class="flex-shrink-0 mt-1">
+                                 <div class="h-8 w-8 rounded-full bg-gray-800 flex items-center justify-center border border-yellow-500/30">
+                                     <svg class="h-4 w-4 text-yellow-500" fill="currentColor" viewBox="0 0 20 20">
+                                         <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                     </svg>
+                                 </div>
+                             </div>
+                             <div class="ml-3">
+                                 <h4 class="text-lg font-semibold dark:text-white text-gray-900">Rate & Review Movies</h4>
+                                 <p class="mt-1 dark:text-gray-400 text-gray-800 text-sm">Share your honest ratings and detailed reviews to help build the most accurate movie database.</p>
+                             </div>
+                         </div>
+
+                         <div class="flex items-start">
+                             <div class="flex-shrink-0 mt-1">
+                                 <div class="h-8 w-8 rounded-full bg-gray-800 flex items-center justify-center border border-yellow-500/30">
+                                     <svg class="h-4 w-4 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                                     </svg>
+                                 </div>
+                             </div>
+                             <div class="ml-3">
+                                 <h4 class="text-lg font-semibold dark:text-white text-gray-900">Join the Discussion</h4>
+                                 <p class="mt-1 dark:text-gray-400 text-gray-800 text-sm">Debate with fellow critics, defend your ratings, and discover new perspectives.</p>
+                             </div>
+                         </div>
+
+                         <div class="flex items-start">
+                             <div class="flex-shrink-0 mt-1">
+                                 <div class="h-8 w-8 rounded-full bg-gray-800 flex items-center justify-center border border-yellow-500/30">
+                                     <svg class="h-4 w-4 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                                     </svg>
+                                 </div>
+                             </div>
+                             <div class="ml-3">
+                                 <h4 class="text-lg font-semibold dark:text-white text-gray-900">Build Your Credibility</h4>
+                                 <p class="mt-1 dark:text-gray-400 text-gray-800 text-sm">Earn badges and recognition as your reviews get upvoted by the community.</p>
+                             </div>
+                         </div>
+                     </div>
+
+                     <div class="flex flex-col sm:flex-row gap-4">
+                         <button class="!flex-1 !bg-yellow-500 !hover:bg-yellow-700 !text-black !font-bold !py-3 !px-6 !rounded-md !transition !duration-300 !flex !items-center !justify-center !gap-2">
+                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+                             </svg>
+                             Start Rating Movies
+                         </button>
+                         <button class="flex-1 bg-transparent dark:hover:bg-gray-800 hover:bg-gray-300 dark:text-white text-black border border-black  font-bold py-3 px-6 rounded-md border border-gray-600 transition duration-300 flex items-center justify-center gap-2">
+                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                             </svg>
+                             See Top Reviews
+                         </button>
+                     </div>
+
+                     <div class="mt-8 pt-6 border-t border-gray-800">
+                         <div class="flex items-center">
+                             <div class="flex-shrink-0 pr-3">
+                                 <div class="flex -space-x-2 overflow-hidden">
+                                     <img class="inline-block h-10 w-10 rounded-full ring-2 ring-gray-800" src="https://randomuser.me/api/portraits/women/44.jpg" alt="Reviewer 1">
+                                     <img class="inline-block h-10 w-10 rounded-full ring-2 ring-gray-800" src="https://randomuser.me/api/portraits/men/32.jpg" alt="Reviewer 2">
+                                     <img class="inline-block h-10 w-10 rounded-full ring-2 ring-gray-800" src="https://randomuser.me/api/portraits/women/68.jpg" alt="Reviewer 3">
+                                     <img class="inline-block h-10 w-10 rounded-full ring-2 ring-gray-800" src="https://randomuser.me/api/portraits/men/75.jpg" alt="Reviewer 4">
+                                 </div>
+                             </div>
+                             <div class="ml-4">
+                                 <p class="text-sm text-gray-400">Trusted by <span class="font-bold dark:text-white text-gray-500">10+</span> passionate critics worldwide</p>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+         </div>
+     </section>
+
+
+
+
+     <section class="px-4 sm:px-6 md:px-10 lg:px-16 py-10  max-w-7xl mx-auto">
+         <!-- Section Heading -->
+         <div class="flex flex-col md:flex-row justify-between items-center gap-4 mb-6">
+             <h3 class="text-3xl font-bold flex items-center gap-2 text-black dark:text-white ">
+                 Top Artists This Week
+                 <svg xmlns="http://www.w3.org/2000/svg" width="21" height="40" fill="currentColor">
+                     <path fill-rule="evenodd" clip-rule="evenodd"
+                         d="M8.88911 14.9994C3.37383 10.5446 0.73813 4.55253 0 0.345635L1.96991 0C2.63631 3.79806 5.05691 9.33313 10.1458 13.4436C12.861 15.6367 16.3628 17.4461 20.8135 18.3595V21.6434C16.3628 22.5568 12.861 24.3662 10.1458 26.5593C5.05691 30.6698 2.63631 36.2048 1.96991 40.0029L0 39.6573C0.73813 35.4504 3.37383 29.4583 8.88911 25.0035C11.5757 22.8334 14.9236 21.0459 19.0292 20.0014C14.9236 18.957 11.5757 17.1695 8.88911 14.9994Z" />
+                 </svg>
+             </h3>
+
+             <!-- Arrows -->
+             <div class="flex gap-3">
+                  <button class="swiper-button-prev-artist flex items-center justify-center w-10 h-10 rounded-full bg-gray-800 dark:bg-gray-700 text-white hover:bg-gray-700 dark:hover:bg-gray-600 transition !cursor-pointer">
+                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                     </svg>
+                 </button>
+                 <button class="swiper-button-next-artist flex items-center justify-center w-10 h-10 rounded-full bg-gray-800 dark:bg-gray-700 text-white hover:bg-gray-700 dark:hover:bg-gray-600 transition !cursor-pointer">
+                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                     </svg>
+                 </button>
+             </div>
+         </div>
+
+
+         <div class="swiper artistsSwiper">
+             <div class="swiper-wrapper">
+
+                 <div class="swiper-slide">
+                     <div class="flex flex-row overflow-hidden overflow-x-auto scrollbar-hidden pt-7 justify-center gap-5" id="top-artists-container">
+
+                         <div class="w-[calc(50%-8px)] sm:w-[calc(33.333%-10px)] md:w-[calc(25%-10px)] lg:w-[calc(16.666%-12px)] text-center group">
+                             <div class="relative mx-auto w-28 h-28 sm:w-32 sm:h-32 rounded-full overflow-hidden ring-2 ring-yellow-400 group-hover:ring-4 transition-all duration-300">
+                                 <img src="https://media.gettyimages.com/id/87859501/photo/cannes-france-indian-bollywood-actor-hrithik-roshan-is-seen-on-may-15-2009-in-cannes-france.jpg?s=612x612&w=0&k=20&c=VYuGE-ZN-iq4oMGxFQr2ea0Xdf8sbOXThx24C94-Wp4=" alt="Artist" class="w-full h-full object-cover" />
+                                 <div class="absolute inset-0 bg-opacity-40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"></div>
+                             </div>
+                             <h5 class="mt-3 text-lg font-semibold group-hover:text-yellow-400 text-yellow-500 transition-colors">Hritik roshan</h5>
+                             <p class="text-sm dark:text-gray-400 text-gray-900">Actor</p>
+                         </div>
+
+
+
+                         <div class="w-[calc(50%-8px)] sm:w-[calc(33.333%-10px)] md:w-[calc(25%-10px)] lg:w-[calc(16.666%-12px)] text-center group">
+                             <div class="relative mx-auto w-28 h-28 sm:w-32 sm:h-32 rounded-full overflow-hidden ring-2 ring-yellow-400 group-hover:ring-4 transition-all duration-300">
+                                 <img src="https://media.gettyimages.com/id/1205043799/photo/new-delhi-india-bollywood-actor-kartik-aaryan-during-an-exclusive-interview-with-ht-city.jpg?s=612x612&w=0&k=20&c=lC54Nb7QO4xqDtjbSKcgG63sjcR693kUPqGLkj8CdNA=" alt="Artist" class="w-full h-full object-cover" />
+                                 <div class="absolute inset-0 bg-opacity-40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"></div>
+                             </div>
+                             <h5 class="mt-3 text-lg font-semibold group-hover:text-yellow-400 text-yellow-500 transition-colors">Kartik Aryan</h5>
+                             <p class="text-sm dark:text-gray-400 text-gray-900">Actor</p>
+                         </div>
+
+
+
+                         <div class="w-[calc(50%-8px)] sm:w-[calc(33.333%-10px)] md:w-[calc(25%-10px)] lg:w-[calc(16.666%-12px)] text-center group">
+                             <div class="relative mx-auto w-28 h-28 sm:w-32 sm:h-32 rounded-full overflow-hidden ring-2 ring-yellow-400 group-hover:ring-4 transition-all duration-300">
+                                 <img src="https://media.gettyimages.com/id/605681682/photo/new-delhi-india-bollywood-actor-sidharth-malhotra-during-the-promotion-of-upcoming-movie-baar.jpg?s=612x612&w=0&k=20&c=tHjP6qEmnylDeOx8ZIteB3KN9MurscNsxCcC1EoqbYw=" alt="Artist" class="w-full h-full object-cover" />
+                                 <div class="absolute inset-0 bg-opacity-40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"></div>
+                             </div>
+                             <h5 class="mt-3 text-lg font-semibold group-hover:text-yellow-400 text-yellow-500 transition-colors">Siddharth Malhotra</h5>
+                             <p class="text-sm dark:text-gray-400 text-gray-900">Actor</p>
+                         </div>
+
+
+
+                         <div class="w-[calc(50%-8px)] sm:w-[calc(33.333%-10px)] md:w-[calc(25%-10px)] lg:w-[calc(16.666%-12px)] text-center group">
+                             <div class="relative mx-auto w-28 h-28 sm:w-32 sm:h-32 rounded-full overflow-hidden ring-2 ring-yellow-400 group-hover:ring-4 transition-all duration-300">
+                                 <img src="https://media.gettyimages.com/id/1258291593/photo/bollywood-actor-aamir-khan-attends-the-trailer-launch-event-of-upcoming-punjabi-language.jpg?s=612x612&w=0&k=20&c=URnuEwd3aGNCc9USWebo_atpzvZM4cJ-u7ZqCHdqhsU=" alt="Artist" class="w-full h-full object-cover" />
+                                 <div class="absolute inset-0 bg-opacity-40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"></div>
+                             </div>
+                             <h5 class="mt-3 text-lg font-semibold group-hover:text-yellow-400 text-yellow-500 transition-colors">Aamir Khan</h5>
+                             <p class="text-sm dark:text-gray-400 text-gray-900">Actor/director</p>
+                         </div>
+
+
+
+                         <div class="w-[calc(50%-8px)] sm:w-[calc(33.333%-10px)] md:w-[calc(25%-10px)] lg:w-[calc(16.666%-12px)] text-center group">
+                             <div class="relative mx-auto w-28 h-28 sm:w-32 sm:h-32 rounded-full overflow-hidden ring-2 ring-yellow-400 group-hover:ring-4 transition-all duration-300">
+                                 <img src="https://media.gettyimages.com/id/456125960/photo/new-delhi-india-bollywood-actor-kareena-kapoor-khan-poses-for-a-profile-shoot-on-september-4.jpg?s=612x612&w=0&k=20&c=xjzFwRsENx_FeM23NWeClB1FH81OrTKAaFvy78Zfimw=" alt="Artist" class="w-full h-full object-cover" />
+                                 <div class="absolute inset-0 bg-opacity-40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"></div>
+                             </div>
+                             <h5 class="mt-3 text-lg font-semibold group-hover:text-yellow-400 text-yellow-500 transition-colors">Kareena Kapoor</h5>
+                             <p class="text-sm dark:text-gray-400 text-gray-900">Actress</p>
+                         </div>
+
+
+                         <div class="w-[calc(50%-8px)] sm:w-[calc(33.333%-10px)] md:w-[calc(25%-10px)] lg:w-[calc(16.666%-12px)] text-center group">
+                             <div class="relative mx-auto w-28 h-28 sm:w-32 sm:h-32 rounded-full overflow-hidden ring-2 ring-yellow-400 group-hover:ring-4 transition-all duration-300">
+                                 <img src="https://media.themoviedb.org/t/p/w600_and_h900_bestv2/tCEppfUu0g2Luu0rS5VKMoL4eSw.jpg" alt="Artist" class="w-full h-full object-cover" />
+                                 <div class="absolute inset-0 bg-opacity-40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"></div>
+                             </div>
+                             <h5 class="mt-3 text-lg font-semibold group-hover:text-yellow-400 text-yellow-500 transition-colors">Shahrukh Khan</h5>
+                             <p class="text-sm dark:text-gray-400 text-gray-900">Actor</p>
+                         </div>
+
+
+                     </div>
+                 </div>
+             </div>
+         </div>
+     </section>
+     <!-- top news -->
+     <div class="mt-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto ">
+         <div class="flex justify-between items-center mb-8">
+             <h3 class="text-2xl sm:text-3xl font-bold flex gap-2 items-center text-black dark:text-white ">
+                 Top News
+                 <svg xmlns="http://www.w3.org/2000/svg" width="21" height="40" fill="currentColor" class="text-yellow-500">
+                     <path fill-rule="evenodd" clip-rule="evenodd"
+                         d="M8.88911 14.9994C3.37383 10.5446 0.73813 4.55253 0 0.345635L1.96991 0C2.63631 3.79806 5.05691 9.33313 10.1458 13.4436C12.861 15.6367 16.3628 17.4461 20.8135 18.3595V21.6434C16.3628 22.5568 12.861 24.3662 10.1458 26.5593C5.05691 30.6698 2.63631 36.2048 1.96991 40.0029L0 39.6573C0.73813 35.4504 3.37383 29.4583 8.88911 25.0035C11.5757 22.8334 14.9236 21.0459 19.0292 20.0014C14.9236 18.957 11.5757 17.1695 8.88911 14.9994Z" />
+                 </svg>
+             </h3>
+             <div class="flex items-center gap-4">
+                 <button class="swiper-button-prev-news flex items-center justify-center w-10 h-10 rounded-full bg-gray-800 dark:bg-gray-700 text-white hover:bg-gray-700 dark:hover:bg-gray-600 transition !cursor-pointer">
+                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                     </svg>
+                 </button>
+                 <button class="swiper-button-next-news flex items-center justify-center w-10 h-10 rounded-full bg-gray-800 dark:bg-gray-700 text-white hover:bg-gray-700 dark:hover:bg-gray-600 transition !cursor-pointer">
+                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                     </svg>
+                 </button>
+             </div>
+         </div>
+
+         <!-- News Tabs -->
+         <div class="flex overflow-x-auto text-sm text-center text-gray-500 mb-8 pb-2 scrollbar-hide">
+
+
+             <input type="radio" name="tab" id="tab1" class="hidden" checked>
+             <label for="tab1"
+                 class="tab-label-news border-b-2 border-transparent px-4 !py-2 cursor-pointer text-base font-[600] uppercase tracking-[2px] hover:text-gray-700"
+                 data-tabnews="movienews">
+                 Movie News
+             </label>
+
+             <input type="radio" name="tab" id="tab2" class="hidden">
+             <label for="tab2"
+                 class="tab-label-news border-b-2 border-transparent px-4 !py-2 cursor-pointer text-base font-[600] uppercase tracking-[2px] hover:text-gray-700"
+                 data-tabnews="tvnews">
+                 TV News
+             </label>
+             <input type="radio" name="tab" id="tab2" class="hidden">
+             <label for="tab2"
+                 class="tab-label-news border-b-2 border-transparent px-4 !py-2 cursor-pointer text-base font-[600] uppercase tracking-[2px] hover:text-gray-700"
+                 data-tabnews="celebritynews">
+                 Celebrity News
+             </label>
+             <input type="radio" name="tab" id="tab2" class="hidden">
+             <label for="tab2"
+                 class="tab-label-news border-b-2 border-transparent px-4 !py-2 cursor-pointer text-base font-[600] uppercase tracking-[2px] hover:text-gray-700"
+                 data-tabnews="topnews">
+                 Top News
+             </label>
+         </div>
+
+         <!-- Swiper Container -->
+         <div id="movienews" class="tab-content-news px-4 py-6 relative">
+             <div class="swiper newsSwiper pb-10">
+                 <div class="swiper-wrapper">
+
+                     <div class="swiper-slide !h-auto">
+                         <div class="dark:bg-[#1a1a1a] bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 h-full flex flex-col">
+                             <div class="relative pt-[56.25%] overflow-hidden">
+                                 <img src="assets/images/thuglife.png" alt="News image" class="absolute top-0 left-0 w-full h-full object-cover hover:scale-105 transition duration-500">
+                                 <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
+                                     <span class="inline-block bg-yellow-500 text-black text-sm font-bold px-2 py-1 rounded">EXCLUSIVE</span>
+                                 </div>
+                             </div>
+                             <div class="p-4 flex-grow flex flex-col">
+                                 <div class="flex items-center text-sm dark:text-gray-400 text-gray-800 mb-2">
+                                     <span>June 12, 2023</span>
+                                     <span class="mx-2">•</span>
+                                     <span>By John Doe</span>
+                                 </div>
+                                 <h4 class="text-lg sm:text-xl font-bold dark:text-gray-400 text-gray-800 mb-3 line-clamp-2">New Spider-Man Movie Breaks Box Office Records Worldwide</h4>
+                                 <p class="dark:text-gray-400 text-gray-800 text-sm sm:text-base mb-4 line-clamp-3">The latest installment in the Spider-Man franchise has shattered records, becoming the highest-grossing film of the year within just three days of release.</p>
+                                 <div class="mt-auto flex items-center justify-between">
+                                     <div class="flex items-center text-yellow-500">
+                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                             <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                         </svg>
+                                         <span class="ml-1 text-sm">4.8/5</span>
+                                     </div>
+                                     <button class="text-sm text-yellow-500 hover:text-yellow-400 font-medium flex items-center">
+                                         Read More
+                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                         </svg>
+                                     </button>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+
+
+                     <div class="swiper-slide !h-auto">
+                         <div class="dark:bg-[#1a1a1a] bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 h-full flex flex-col">
+                             <div class="relative pt-[56.25%] overflow-hidden">
+                                 <img src="assets/images/oscar.jpg" alt="News image" class="absolute top-0 left-0 w-full h-full object-cover hover:scale-105 transition duration-500">
+                                 <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
+                                     <span class="inline-block bg-red-500 text-white text-sm font-bold px-2 py-1 rounded">BREAKING</span>
+                                 </div>
+                             </div>
+                             <div class="p-4 flex-grow flex flex-col">
+                                 <div class="flex items-center text-sm dark:text-gray-400 text-gray-800 mb-2">
+                                     <span>June 10, 2023</span>
+                                     <span class="mx-2">•</span>
+                                     <span>By Jane Smith</span>
+                                 </div>
+                                 <h4 class="text-lg sm:text-xl font-bold dark:text-gray-400 text-gray-800 mb-3 line-clamp-2">Oscar-Winning Director Announces New Sci-Fi Trilogy</h4>
+                                 <p class="dark:text-gray-400 text-gray-800 text-sm sm:text-base mb-4 line-clamp-3">Acclaimed filmmaker reveals ambitious new project set to begin production next year with A-list cast attached.</p>
+                                 <div class="mt-auto flex items-center justify-between">
+                                     <div class="flex items-center text-yellow-500">
+                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                             <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                         </svg>
+                                         <span class="ml-1 text-sm">4.5/5</span>
+                                     </div>
+                                     <button class="text-sm text-yellow-500 hover:text-yellow-400 font-medium flex items-center">
+                                         Read More
+                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                         </svg>
+                                     </button>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+
+                     <!-- News Card 3 -->
+                     <div class="swiper-slide !h-auto">
+                         <div class="dark:bg-[#1a1a1a] bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 h-full flex flex-col">
+                             <div class="relative pt-[56.25%] overflow-hidden">
+                                 <img src="assets/images/oscar.jpg" alt="News image" class="absolute top-0 left-0 w-full h-full object-cover hover:scale-105 transition duration-500">
+                             </div>
+                             <div class="p-4 flex-grow flex flex-col">
+                                 <div class="flex items-center text-sm dark:text-gray-400 text-gray-800 mb-2">
+                                     <span>June 8, 2023</span>
+                                     <span class="mx-2">•</span>
+                                     <span>By Mike Johnson</span>
+                                 </div>
+                                 <h4 class="text-lg sm:text-xl font-bold dark:text-gray-400 text-gray-800 mb-3 line-clamp-2">Famous Actor Confirmed for Marvel's Next Big Project</h4>
+                                 <p class="dark:text-gray-400 text-gray-800 text-sm sm:text-base mb-4 line-clamp-3">After months of speculation, the studio officially announces the casting of a major star in their upcoming superhero film.</p>
+                                 <div class="mt-auto flex items-center justify-between">
+                                     <div class="flex items-center text-yellow-500">
+                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                             <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                         </svg>
+                                         <span class="ml-1 text-sm">4.2/5</span>
+                                     </div>
+                                     <button class="text-sm text-yellow-500 hover:text-yellow-400 font-medium flex items-center">
+                                         Read More
+                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                         </svg>
+                                     </button>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+
+                     <!-- News Card 4 -->
+                     <div class="swiper-slide !h-auto">
+                         <div class="dark:bg-[#1a1a1a] bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 h-full flex flex-col">
+                             <div class="relative pt-[56.25%] overflow-hidden">
+                                 <img src="assets/images/oscar.jpg" alt="News image" class="absolute top-0 left-0 w-full h-full object-cover hover:scale-105 transition duration-500">
+                                 <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
+                                     <span class="inline-block bg-blue-500 text-white text-sm font-bold px-2 py-1 rounded">INTERVIEW</span>
+                                 </div>
+                             </div>
+                             <div class="p-4 flex-grow flex flex-col">
+                                 <div class="flex items-center text-sm dark:text-gray-400 text-gray-800 mb-2">
+                                     <span>June 5, 2023</span>
+                                     <span class="mx-2">•</span>
+                                     <span>By Sarah Williams</span>
+                                 </div>
+                                 <h4 class="text-lg sm:text-xl font-bold dark:text-gray-400 text-gray-800 mb-3 line-clamp-2">Exclusive: Director Talks Challenges of New Blockbuster</h4>
+                                 <p class="dark:text-gray-400 text-gray-800 text-sm sm:text-base mb-4 line-clamp-3">In our in-depth interview, the visionary director reveals the behind-the-scenes struggles of bringing this epic to life.</p>
+                                 <div class="mt-auto flex items-center justify-between">
+                                     <div class="flex items-center text-yellow-500">
+                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                             <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                         </svg>
+                                         <span class="ml-1 text-sm">4.7/5</span>
+                                     </div>
+                                     <button class="text-sm text-yellow-500 hover:text-yellow-400 font-medium flex items-center">
+                                         Read More
+                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                         </svg>
+                                     </button>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+
+
+
+             </div>
+         </div>
+     </div>
+
+
+
+
+
+
+ </main>
+ <!-- End Main -->
+ <!-- Swiper JS -->
+ <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+ <!-- catgeories swiper -->
+ <script>
+     new Swiper('.categories-slider', {
+         slidesPerView: 1,
+         spaceBetween: 20,
+         loop: true,
+         navigation: {
+             nextEl: '.swiper-button-next-category',
+             prevEl: '.swiper-button-prev-category'
+         },
+         autoplay: {
+             delay: 3000,
+             disableOnInteraction: false,
+         },
+         breakpoints: {
+             480: {
+                 slidesPerView: 2
+             },
+             768: {
+                 slidesPerView: 3
+             },
+             1024: {
+                 slidesPerView: 4
+             },
+             1280: {
+                 slidesPerView: 5
+             },
+         }
+     });
+ </script>
+ <!-- video reviews slider -->
+ <script>
+     new Swiper('.videoReviewsSwiper', {
+         slidesPerView: 1,
+         slidesPerGroup: 1, // Grouped sliding
+         spaceBetween: 20,
+         loop: true,
+         navigation: {
+             nextEl: '.swiper-button-next-video',
+             prevEl: '.swiper-button-prev-video',
+         },
+         breakpoints: {
+             640: {
+                 slidesPerView: 2,
+                 slidesPerGroup: 2
+             },
+             1024: {
+                 slidesPerView: 3,
+                 slidesPerGroup: 3
+             },
+             1280: {
+                 slidesPerView: 4,
+                 slidesPerGroup: 4
+             },
+         }
+     });
+ </script>
+
+
+
+ <!-- streaming picks -->
+ <script>
+     document.addEventListener('DOMContentLoaded', function() {
+         new Swiper('.tabs-streaming-slider', {
+             slidesPerView: 1.1,
+             spaceBetween: 20,
+             breakpoints: {
+                 640: {
+                     slidesPerView: 1.2,
+                 },
+                 768: {
+                     slidesPerView: 2,
+                 },
+                 1024: {
+                     slidesPerView: 3,
+                 },
+                 1280: {
+                     slidesPerView: 4,
+                 },
+             },
+             navigation: {
+                 nextEl: ".swiper-button-next",
+                 prevEl: ".swiper-button-prev",
+             },
+         });
+     });
+ </script>
+ <!-- top movies weeks -->
+ <script>
+     document.addEventListener('DOMContentLoaded', function() {
+         new Swiper('.top-movies-weeks', {
+             slidesPerView: 1,
+             centeredSlides: false,
+             spaceBetween: 20,
+             navigation: {
+                 nextEl: '.swiper-button-next-top-5',
+                 prevEl: '.swiper-button-prev-top-5',
+             },
+             pagination: {
+                 el: '.swiper-pagination',
+                 clickable: true,
+             },
+             breakpoints: {
+                 320: {
+                     slidesPerView: 1,
+                     spaceBetween: 16,
+                     navigation: {
+                         enabled: false
+                     },
+                     pagination: {
+                         enabled: true
+                     }
+                 },
+                 640: {
+                     slidesPerView: 2,
+                     spaceBetween: 20,
+                     navigation: {
+                         enabled: true
+                     },
+                     pagination: {
+                         enabled: false
+                     }
+                 },
+                 1024: {
+                     slidesPerView: 3,
+                     spaceBetween: 20
+                 },
+                 1280: {
+                     slidesPerView: 4,
+                     spaceBetween: 20
+                 }
+             }
+         });
+     });
+ </script>
+
+
+ <!-- upcoming -->
+ <script>
+     document.addEventListener('DOMContentLoaded', function() {
+         new Swiper('.upcomingmoviesswiper', {
+             slidesPerView: 1.1,
+             spaceBetween: 16,
+             loop: false,
+             navigation: {
+                 nextEl: '.swiper-button-next',
+                 prevEl: '.swiper-button-prev',
+             },
+             breakpoints: {
+                 640: {
+                     slidesPerView: 1.2
+                 },
+                 768: {
+                     slidesPerView: 2
+                 },
+                 1024: {
+                     slidesPerView: 3
+                 },
+                 1280: {
+                     slidesPerView: 4
+                 },
+             },
+             on: {
+                 slideChange: function() {
+                     const prev = document.querySelector('.swiper-button-prev');
+                     const next = document.querySelector('.swiper-button-next');
+                     prev.classList.toggle('disabled', this.isBeginning);
+                     next.classList.toggle('disabled', this.isEnd);
+                 },
+                 afterInit: function() {
+                     this.emit('slideChange');
+                 }
+             }
+         });
+
+     });
+ </script>
+ <!-- box office -->
+ <script>
+     document.addEventListener('DOMContentLoaded', function() {
+         const swiper = new Swiper('.enhanced-movie-swiper', {
+             slidesPerView: 1.1,
+             spaceBetween: 16,
+             loop: false,
+             navigation: {
+                 nextEl: '.swiper-button-next',
+                 prevEl: '.swiper-button-prev'
+             },
+             breakpoints: {
+                 640: {
+                     slidesPerView: 1.2
+                 },
+                 768: {
+                     slidesPerView: 2
+                 },
+                 1024: {
+                     slidesPerView: 3
+                 },
+                 1280: {
+                     slidesPerView: 4
+                 },
+             },
+             on: {
+                 slideChange: function() {
+                     const prev = document.querySelector('.swiper-button-prev');
+                     const next = document.querySelector('.swiper-button-next');
+                     prev.classList.toggle('opacity-50', this.isBeginning);
+                     next.classList.toggle('opacity-50', this.isEnd);
+                 },
+                 afterInit: function() {
+                     this.emit('slideChange');
+                 }
+             }
+         });
+
+
+     });
+ </script>
+
+
+ <script>
+     document.addEventListener('DOMContentLoaded', function() {
+         const swiper = new Swiper('.artistsSwiper', {
+             slidesPerView: 'auto',
+             spaceBetween: 16,
+
+             navigation: {
+                 nextEl: '.swiper-button-next-artist',
+                 prevEl: '.swiper-button-prev-artist',
+             },
+             breakpoints: {
+                 640: {
+                     spaceBetween: 16
+                 },
+                 768: {
+                     spaceBetween: 16
+                 },
+                 1024: {
+                     spaceBetween: 16
+                 }
+             }
+         });
+     });
+ </script>
+ <script>
+     new Swiper(".newest-release", {
+         slidesPerView: "auto",
+         spaceBetween: 24,
+         loop: false,
+         navigation: {
+             nextEl: ".swiper-button-next",
+             prevEl: ".swiper-button-prev"
+         }
+     });
+ </script>
+
+ <!-- JavaScript -->
+ <script>
+     const labels = document.querySelectorAll('.tab-label');
+     const contents = document.querySelectorAll('.tab-content');
+
+     labels.forEach(label => {
+         label.addEventListener('click', () => {
+
+             labels.forEach(l => l.classList.remove('border-yellow-500', 'text-yellow-500'));
+             contents.forEach(c => c.classList.add('hidden'));
+
+
+             label.classList.add('border-yellow-500', 'text-yellow-500');
+             const tabId = label.getAttribute('data-tab');
+             document.getElementById(tabId).classList.remove('hidden');
+         });
+     });
+
+
+     labels[0].click();
+ </script>
+ <!-- box-office -->
+ <script>
+     const labelsboxoffice = document.querySelectorAll('.tab-label-box-office');
+     const contentsboxoffice = document.querySelectorAll('.tab-content-box-office');
+
+     labelsboxoffice.forEach(label => {
+         label.addEventListener('click', () => {
+             // Remove active classes
+             labelsboxoffice.forEach(l => l.classList.remove('border-yellow-500', 'text-yellow-500'));
+             contentsboxoffice.forEach(c => c.classList.add('hidden'));
+
+             // Add active class to clicked label
+             label.classList.add('border-yellow-500', 'text-yellow-500');
+
+             // Get corresponding tab content by ID
+             const tabId = label.getAttribute('data-tabboxoffice');
+             const tabContent = document.getElementById(tabId);
+             if (tabContent) {
+                 tabContent.classList.remove('hidden');
+             }
+         });
+     });
+
+     // Trigger default click
+     labelsboxoffice[0].click();
+ </script>
+
+ <!-- news tabs -->
+ <script>
+     const labelsnews = document.querySelectorAll('.tab-label-news');
+     const contentsnews = document.querySelectorAll('.tab-content-news');
+
+     labelsnews.forEach(label => {
+         label.addEventListener('click', () => {
+             // Remove active classes
+             labelsnews.forEach(l => l.classList.remove('border-yellow-500', 'text-yellow-500'));
+             contentsnews.forEach(c => c.classList.add('hidden'));
+
+             // Add active class to clicked label
+             label.classList.add('border-yellow-500', 'text-yellow-500');
+
+             // Get corresponding tab content by ID
+             const tabId = label.getAttribute('data-tabnews');
+             const tabContent = document.getElementById(tabId);
+             if (tabContent) {
+                 tabContent.classList.remove('hidden');
+             }
+         });
+     });
+
+     // Trigger default click
+     labelsnews[0].click();
+ </script>
+
+ <script>
+     const swiper = new Swiper('.mySwiper', {
+         slidesPerView: 2,
+         spaceBetween: 16,
+         navigation: {
+             nextEl: '.swiper-button-next',
+             prevEl: '.swiper-button-prev',
+         },
+         breakpoints: {
+             640: {
+                 slidesPerView: 2
+             },
+             768: {
+                 slidesPerView: 3
+             },
+             1024: {
+                 slidesPerView: 4
+             },
+             1280: {
+                 slidesPerView: 4
+             },
+         },
+     });
+ </script>
+
+ <!-- top news swiper -->
+ <script>
+     document.addEventListener('DOMContentLoaded', function() {
+         const swiper = new Swiper('.newsSwiper', {
+             slidesPerView: 1,
+             spaceBetween: 20,
+             grabCursor: true,
+             loop: true,
+             pagination: {
+                 el: '.swiper-pagination',
+                 clickable: true,
+             },
+             navigation: {
+                 nextEl: '.swiper-button-next-news',
+                 prevEl: '.swiper-button-prev-news',
+             },
+             breakpoints: {
+                 640: {
+                     slidesPerView: 2,
+                 },
+                 768: {
+                     slidesPerView: 2,
+                 },
+                 1024: {
+                     slidesPerView: 3,
+                 },
+                 1280: {
+                     slidesPerView: 4,
+                 }
+             }
+         });
+     });
+ </script>
+ <script>
+     document.addEventListener('DOMContentLoaded', function() {
+         const platformMap = {
+             'netflix': 8,
+             'jiohotstar': 386,
+             'mxplayer': 305,
+             'sonyliv': 370
+         };
+
+         let swipers = {};
+
+         function getGenreName(id) {
+             const genreMap = {
+                 28: "Action",
+                 35: "Comedy",
+                 18: "Drama",
+                 10749: "Romance",
+                 27: "Horror",
+                 53: "Thriller",
+                 14: "Fantasy",
+                 878: "Sci-Fi"
+             };
+             return genreMap[id] || "Genre";
+         }
+
+         function generateMovieCard(movie) {
+             const {
+                 title,
+                 name,
+                 poster_path,
+                 overview,
+                 vote_average,
+                 release_date,
+                 genre_ids = []
+             } = movie;
+
+             const movieTitle = title || name || 'Untitled';
+             const genreTags = genre_ids.slice(0, 3).map(id => `<span class="text-[11px] py-1 px-3 bg-gray-800/80 rounded-md font-medium text-gray-300">${getGenreName(id)}</span>`).join('');
+
+             return `
+            <div class="swiper-slide">
+  <div class="rounded-xl  dark:bg-[#111] border border-gray-800 hover:border-gray-600 transition-all duration-300 overflow-hidden shadow-md h-full flex flex-col">
+    <div class="relative">
+      
+
+
+        <div class="relative group">
+<img src="https://image.tmdb.org/t/p/w500${poster_path}" alt="${movieTitle}"   class="w-full h-[310px]  !object-cover rounded-md hover:scale-[1.02] transition-transform duration-300">
+
+<!-- Play Button Overlay -->
+ <a href="javascript:void(0)"
+  class="absolute inset-0 flex items-center justify-center movie-overlay z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/40 rounded-md watch-trailer-btn" data-id="${movie.id}">
+
+  <!-- Circle with play button -->
+  <div class="border-2 border-white p-4 rounded-full flex !items-center !justify-center">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" viewBox="0 0 16 19">
+      <path
+        d="M14.249 7.49136C15.5132 8.27308 15.5132 10.1118 14.249 10.8935L3.05184 17.8171C1.71942 18.641 0 17.6826 0 16.1161V2.2688C0 0.702239 1.71942 -0.256149 3.05184 0.567735L14.249 7.49136Z" />
+    </svg>
+  </div>
+
+</a>
+</div>
+
+      
+
+      <button class="absolute top-3 right-4 bg-black/70 hover:bg-black/90 p-2 rounded-full backdrop-blur-sm">
+        <i class="fa fa-bookmark text-white text-sm"></i>
+      </button>
     </div>
 
-    <div class="container">
-      <!-- LEFT SIDE -->
-
-      <div class="left-side">
-        <section class="login-box">
-          <h2>Log in or sign up to book</h2>
-
-          <label for="username">Username</label>
-          <input type="text" id="username" placeholder="Enter your username" />
-
-          <label for="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            placeholder="Enter your password"
-          />
-
-          <p class="info-text">
-            Your information is secure and will not be shared.
-            <a href="#">Privacy Policy</a>
-          </p>
-
-          <button class="login-btn">Continue</button>
-        </section>
-
-        <div class="date-guest-section">
-          <div class="section-title">Your trip</div>
-
-          <div class="info-row">
-            <div>
-              <h4>Dates</h4>
-              <p>27–29 Jun</p>
-            </div>
-            <button id="editBtn">Edit</button>
-          </div>
-
-          <div class="info-row">
-            <div>
-              <h4>Guests</h4>
-              <p>1 guest & 0 children</p>
-            </div>
-            <button>Edit</button>
-          </div>
-        </div>
-
-        <div class="booking-confirmation-form">
-          <h2 class="form-title">Booking Confirmation</h2>
-          <form action="#">
-            <div class="form-row">
-              <div class="form-group">
-                <label for="name">Name<span>*</span></label>
-                <input
-                  type="text"
-                  id="name"
-                  placeholder="Enter Full Name"
-                  required
-                />
-              </div>
-              <div class="form-group">
-                <label for="phone">Phone Number<span>*</span></label>
-                <input
-                  type="text"
-                  id="phone"
-                  placeholder="Phone Number"
-                  required
-                />
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group">
-                <label for="email">Email Address<span>*</span></label>
-                <input
-                  type="email"
-                  id="email"
-                  placeholder="Email Address"
-                  required
-                />
-              </div>
-              <div class="form-group">
-                <label for="address">Address<span>*</span></label>
-                <input
-                  type="text"
-                  id="address"
-                  placeholder="Address"
-                  required
-                />
-              </div>
-            </div>
-          </form>
-        </div>
+    <div class="px-4 py-3 space-y-2 flex-grow flex flex-col justify-between">
+      <div class="flex justify-between items-center">
+      <a href="movie-details.php?id=${movie.id}"> <p class="font-semibold text-sm text-gray-900 dark:text-white !truncate !w-[130px]">${movieTitle}</p></a> 
+      <div class=" bg-black/80 text-amber-400 text-sm px-2 py-1 rounded-md flex items-center gap-1 backdrop-blur-sm">
+        <i class="fa fa-star text-[11px]"></i>
+        <span class="font-bold">${vote_average?.toFixed(1) || 'N/A'}/10</span>
       </div>
-
-      <!-- RIGHT SIDE -->
-      <div class="right-side">
-        <div class="price-card">
-          <div class="price-img">
-            <img
-              src="https://images.homify.com/image/upload/c_scale,h_500,w_500/v1490006803/p/photo/image/1913408/Trilok_ji_Cam-7.jpg"
-              alt="Stay image"
-            />
-          </div>
-          <div class="price-info">
-            <h4>Kudarat | Private lounge pool | couple friendly</h4>
-            <p>Entire home</p>
-            <div class="rating-review-section">
-              <p class="rating-section">
-                <i class="fa fa-star"></i> 4.99
-                <span class="reviews-section">(79 reviews)</span>
-              </p>
-              <p class="right-side-super-host">
-                <i class="fas fa-medal"></i> Superhost
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div class="price-breakdown">
-          <div class="price-line">
-            <span>
-              <i class="fa-solid fa-indian-rupee-sign"></i> 5,620.3 x 2
-              nights</span
-            >
-            <span>
-              <i class="fa-solid fa-indian-rupee-sign"></i> 11,240.59</span
-            >
-          </div>
-          <div class="price-line">
-            <span>Taxes</span>
-            <span> <i class="fa-solid fa-indian-rupee-sign"></i> 1,182</span>
-          </div>
-          <div class="price-line total">
-            <span>Total (INR)</span>
-            <span>₹12,422.59</span>
-          </div>
-          <div style="margin-top: 10px">
-            <a href="#" onclick="openModal()">Price breakdown</a>
-          </div>
-        </div>
-
-        <!-- Payment Method Section (Razorpay Style UI) -->
-        <!-- Payment Method Section (Razorpay Style UI) -->
-        <div class="razorpay-section">
-          <div class="razorpay-title">Payment Method</div>
-          <div class="razorpay-box">
-            <div class="razorpay-header">
-              <img
-                src="https://cdn.razorpay.com/logo.svg"
-                alt="Razorpay"
-                class="razorpay-logo"
-              />
-              <span class="razorpay-label">Razorpay Secure Payment</span>
-            </div>
-            <p class="razorpay-description">
-              You’ll be redirected to Razorpay to complete your secure payment.
-            </p>
-            <button class="razorpay-button">Proceed to Pay</button>
-          </div>
-        </div>
+       
       </div>
-    </div>
+       <p class="text-gray-900 dark:text-white text-sm whitespace-nowrap">
+          <span class="text-gray-900 dark:text-white">Release:</span> ${release_date ? new Date(release_date).toDateString() : 'N/A'}
+        </p>
+      <p class="text-gray-900 dark:text-white text-sm line-clamp-2">${overview?.slice(0, 90) || 'No description available'}...</p>
+      <div class="flex flex-wrap gap-2 text-[11px] text-gray-900 dark:text-white">${genreTags}</div>
 
-    <!-- price breakdown modal -->
-    <div id="priceModal" class="modal-overlay" onclick="closeModal(event)">
-      <div class="modal-content">
-        <div class="modal-header">
-          <span>Price breakdown</span>
-          <span class="close-btn" onclick="closeModal(event)">
-            <i class="fa-solid fa-xmark"></i>
-          </span>
-        </div>
-        <hr />
-        <div class="modal-body">
-          <div class="line">
-            <span>2 nights · 27–29 Jun</span>
-            <span>₹9,850</span>
-          </div>
-          <div class="line">
-            <span>Holyhotels service fee</span>
-            <span>₹1,390.59</span>
-          </div>
-          <div class="line">
-            <span><u>Taxes</u></span>
-            <span>₹1,182</span>
-          </div>
-
-          <div class="line total">
-            <strong>Total</strong>
-            <strong>₹12,422.59</strong>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- date picker -->
-
-    <div class="date-picker-container" id="dateModal" style="display: none">
-      <div class="date-heading">2 nights</div>
-      <div class="sub-heading">2 beds · 1 bath</div>
-
-      <div class="input-group">
-        <div class="input-field">
-          <label for="checkin">Check-In</label>
-          <input type="text" id="checkin" placeholder="Select date" readonly />
-        </div>
-        <div class="input-field">
-          <label for="checkout">Checkout</label>
-          <input type="text" id="checkout" placeholder="Select date" readonly />
-        </div>
-      </div>
-
-      <div class="footer-buttons">
-        <button class="btn btn-clear" onclick="clearDates()">
-          Clear dates
+      <div class="flex gap-3 mt-3">
+        <a href="movie-details.php?id=${movie.id}"
+          class="flex-1 py-2 bg-amber-500 hover:bg-amber-400 text-gray-900 dark:text-white font-semibold text-sm rounded-md flex items-center justify-center gap-1.5">
+          <i class="fa fa-eye text-[11px]"></i> View Details
+        </a>
+        <button class="flex-1 py-2 border border-gray-700 bg-gray-800 text-white dark:text-white text-sm rounded-md flex items-center justify-center gap-1.5 watch-trailer-btn"
+          data-id="${movie.id}">
+          <i class="fas fa-play text-[10px]"></i> Trailer
         </button>
-        <button class="btn btn-save">Save</button>
       </div>
     </div>
+  </div>
+</div>
+`;
+         }
 
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+         async function fetchAndRender(platform) {
 
-    <script>
-      function openModal() {
-        document.getElementById("priceModal").style.display = "flex";
-      }
+             const movieListId = `movie-list-${platform}`;
+             const container = document.getElementById(movieListId);
 
-      function closeModal(event) {
-        if (
-          event.target.classList.contains("modal-overlay") ||
-          event.target.closest(".close-btn")
-        ) {
-          document.getElementById("priceModal").style.display = "none";
-        }
-      }
-    </script>
+             if (!container) {
+                 console.error(`Container #${movieListId} not found`);
+                 return;
+             }
 
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <script>
-      const editBtn = document.getElementById("editBtn");
-      const modal = document.getElementById("dateModal");
-      const checkinInput = document.getElementById("checkin");
-      const checkoutInput = document.getElementById("checkout");
+             container.innerHTML = `<div class="text-white p-4">Loading...</div>`;
 
-      // Show modal
-      editBtn.addEventListener("click", () => {
-        modal.style.display = "block";
-        dateRangeCalendar.open(); // open calendar on Edit click
-      });
+             try {
+                 const res = await fetch(`get_movies.php?platform=${platform}`);
+                 const data = await res.json();
 
-      // Initialize Flatpickr on checkin only, update both fields
-      const dateRangeCalendar = flatpickr("#checkin", {
-        mode: "range",
-        dateFormat: "Y-m-d",
-        onChange: function (selectedDates) {
-          if (selectedDates.length === 2) {
-            checkinInput.value = flatpickr.formatDate(
-              selectedDates[0],
-              "Y-m-d"
-            );
-            checkoutInput.value = flatpickr.formatDate(
-              selectedDates[1],
-              "Y-m-d"
-            );
+                 if (!Array.isArray(data)) throw new Error("Invalid data");
 
-            const nights =
-              (selectedDates[1] - selectedDates[0]) / (1000 * 60 * 60 * 24);
-            document.querySelector(
-              ".date-heading"
-            ).innerText = `${nights} night${nights > 1 ? "s" : ""}`;
-          } else {
-            checkoutInput.value = "";
-          }
-        },
-        onReady: function (selectedDates, dateStr, instance) {
-          instance.calendarContainer.style.zIndex = 10000; // Ensure above modal
-        },
-      });
+                 if (data.length === 0) {
+                     container.innerHTML = `<div class="text-gray-900 dark:text-white p-4 text-center !items-center !content-center ">No movies found on this streaming platform.</div>`;
+                     return;
+                 }
 
-      // Prevent manual edits
-      checkoutInput.addEventListener("focus", () =>
-        checkinInput._flatpickr.open()
-      );
+                 container.innerHTML = data.map(generateMovieCard).join('');
 
-      // Clear dates
-      function clearDates() {
-        dateRangeCalendar.clear();
-        checkinInput.value = "";
-        checkoutInput.value = "";
-        document.querySelector(".date-heading").innerText = `0 nights`;
-      }
+                 // Initialize or reinitialize Swiper
+                 if (swipers[platform]) {
+                     swipers[platform].destroy(true, true);
+                 }
 
-      // Save and close modal
-      document.querySelector(".btn-save").addEventListener("click", () => {
-        modal.style.display = "none";
-      });
-    </script>
-  </body>
-</html>
+                 swipers[platform] = new Swiper(`#${platform} .tabs-streaming-slider`, {
+                     slidesPerView: 1.1,
+                     spaceBetween: 20,
+                     breakpoints: {
+                         640: {
+                             slidesPerView: 1.2,
+                         },
+                         768: {
+                             slidesPerView: 2,
+                         },
+                         1024: {
+                             slidesPerView: 3,
+                         },
+                         1280: {
+                             slidesPerView: 4,
+                         },
+                     },
+                     navigation: {
+                         nextEl: ".swiper-button-next",
+                         prevEl: ".swiper-button-prev",
+                     },
+                 });
+             } catch (err) {
+                 console.error(err);
+                 container.innerHTML = `<div class="text-gray-900 dark:text-white p-4">Failed to load movies.</div>`;
+             }
+         }
+
+         // Init all platforms
+         Object.keys(platformMap).forEach(platform => {
+             fetchAndRender(platform);
+         });
+     });
+ </script>
+ <script>
+     const TMDB_API_KEY = "2ada23b643332d312a867b88397fc147";
+
+     async function fetchUpcomingBollywoodMovies() {
+         const today = new Date().toISOString().split('T')[0];
+         const container = document.getElementById('upcoming-movies');
+
+         container.innerHTML = `<div class="text-white p-4">Loading...</div>`;
+
+         const url = `https://api.themoviedb.org/3/discover/movie?api_key=${TMDB_API_KEY}&language=en-IN&with_original_language=hi&region=IN&sort_by=primary_release_date.asc&include_adult=false&include_video=false&release_date.gte=${today}`;
+
+         try {
+             const res = await fetch(url);
+             const data = await res.json();
+
+             if (!data.results || data.results.length === 0) {
+                 container.innerHTML = `<div class="text-gray-900 dark:text-white p-4">No upcoming Bollywood movies found.</div>`;
+                 return;
+             }
+
+             container.innerHTML = data.results.map(movie => {
+                 const image = movie.poster_path ?
+                     `https://image.tmdb.org/t/p/w500${movie.poster_path}` :
+                     'https://micodetest.com/masala_meter/assets/images/placeholder.jpg';
+
+                 const releaseDate = new Date(movie.release_date);
+                 const today = new Date();
+                 const diffDays = Math.ceil((releaseDate - today) / (1000 * 60 * 60 * 24));
+
+                 return `
+               <div class="swiper-slide">
+  <div class=" dark:bg-[#111] border border-gray-800 hover:border-gray-400 transition-all duration-300 rounded-xl shadow-lg overflow-hidden h-full flex flex-col">
+    <!-- Image -->
+    <div class="relative">
+      
+
+
+          <div class="relative group">
+<img src="${image}" alt="${movie.title}"  class="w-full !h-[310px] sm:h-[220px] !object-cover transition-transform duration-300 hover:scale-[1.03] rounded-md">
+
+<!-- Play Button Overlay -->
+ <a href="javascript:void(0)"
+  class="absolute inset-0 flex items-center justify-center movie-overlay z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/40 rounded-md watch-trailer-btn"  data-id="${movie.id}">
+
+  <!-- Circle with play button -->
+  <div class="border-2 border-white p-4 rounded-full flex !items-center !justify-center">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" viewBox="0 0 16 19">
+      <path
+        d="M14.249 7.49136C15.5132 8.27308 15.5132 10.1118 14.249 10.8935L3.05184 17.8171C1.71942 18.641 0 17.6826 0 16.1161V2.2688C0 0.702239 1.71942 -0.256149 3.05184 0.567735L14.249 7.49136Z" />
+    </svg>
+  </div>
+
+</a>
+</div>
+    </div>
+
+    <!-- Content -->
+    <div class="px-4 py-4 space-y-3 flex-grow flex flex-col justify-between">
+      <div class="flex justify-between items-center gap-2">
+
+       <a href="movie-details.php?id=${movie.id}"> <p class="text-gray-900 dark:text-white font-semibold text-sm truncate">${movie.title}</p><a>
+        <p class="text-gray-900 dark:text-white text-[11px] whitespace-nowrap">
+          <span class="text-gray-900 dark:text-white">Release:</span> ${releaseDate.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
+        </p>
+      </div>
+
+      <div class="flex flex-wrap gap-2">
+        <span class="text-[11px] py-1 px-3 bg-gray-800/80 rounded-md font-medium text-white">Drama</span>
+        <span class="text-[11px] py-1 px-3 bg-gray-800/80 rounded-md font-medium text-white">Thriller</span>
+      </div>
+
+      <p class="text-gray-900 dark:text-white text-sm line-clamp-2">Countdown: ${diffDays} days to premiere</p>
+
+      <div class="flex gap-3 pt-3">
+        <button class="flex-1 py-2 bg-amber-500 hover:bg-amber-400 text-gray-900 dark:text-white font-semibold text-sm rounded-md flex items-center justify-center gap-1.5">
+          <i class="fa fa-clock text-sm"></i> Remind Me
+        </button>
+        <button class="flex-1 py-2 border border-gray-700 bg-gray-800 text-white  dark:text-white text-sm rounded-md flex items-center justify-center gap-1.5 watch-trailer-btn" data-id="${movie.id}">
+          <i class="fas fa-play text-sm"></i> Watch Trailer
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+            `;
+             }).join('');
+
+             new Swiper('.upcomingmoviesswiper', {
+                 slidesPerView: 1.1,
+                 spaceBetween: 16,
+                 loop: false,
+                 navigation: {
+                     nextEl: '.swiper-button-next',
+                     prevEl: '.swiper-button-prev',
+                 },
+                 breakpoints: {
+                     640: {
+                         slidesPerView: 1.2
+                     },
+                     768: {
+                         slidesPerView: 2
+                     },
+                     1024: {
+                         slidesPerView: 3
+                     },
+                     1280: {
+                         slidesPerView: 4
+                     },
+                 },
+                 on: {
+                     slideChange: function() {
+                         const prev = document.querySelector('.swiper-button-prev');
+                         const next = document.querySelector('.swiper-button-next');
+                         prev.classList.toggle('disabled', this.isBeginning);
+                         next.classList.toggle('disabled', this.isEnd);
+                     },
+                     afterInit: function() {
+                         this.emit('slideChange');
+                     }
+                 }
+             });
+
+
+         } catch (error) {
+             console.error(error);
+             container.innerHTML = `<div class="text-gray-900 dark:text-white p-4">Failed to load upcoming Bollywood movies.</div>`;
+         }
+     }
+
+     // Auto run on DOM load
+     document.addEventListener("DOMContentLoaded", fetchUpcomingBollywoodMovies);
+ </script>
+ <script>
+     const apiKey = '2ada23b643332d312a867b88397fc147';
+     const boxofficeContainer = document.getElementById('box-office-slider');
+     const tabs = document.querySelectorAll('[data-tabboxoffice]');
+
+     const generateCard = (movie) => {
+         const title = movie.title || movie.name;
+         const releaseDate = movie.release_date || movie.first_air_date || 'N/A';
+         const genres = (movie.genre_names || []).join(', ') || 'Drama';
+         const rating = movie.vote_average || '7.5';
+         const poster = movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : 'https://micodetest.com/masala_meter/assets/images/placeholder.jpg';
+
+         return `<div class="swiper-slide ">
+  <div class="dark:bg-[#111] border border-gray-800 hover:border-gray-400 transition-all duration-300 rounded-xl shadow-lg overflow-hidden h-full flex flex-col">
+    
+    <!-- Image & Actions -->
+    <div class="relative">
+  
+
+
+          <div class="relative group">
+<img src="${poster}" alt="${title}" class="w-full !h-[310px]  !object-cover sm:h-[220px] !object-cover transition-transform duration-300 hover:scale-[1.03] rounded-md">
+
+<!-- Play Button Overlay -->
+ <a href="javascript:void(0)"
+  class="absolute inset-0 flex items-center justify-center movie-overlay z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/40 rounded-md watch-trailer-btn" data-id="${movie.id}" >
+
+  <!-- Circle with play button -->
+  <div class="border-2 border-white p-4 rounded-full flex !items-center !justify-center">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" viewBox="0 0 16 19">
+      <path
+        d="M14.249 7.49136C15.5132 8.27308 15.5132 10.1118 14.249 10.8935L3.05184 17.8171C1.71942 18.641 0 17.6826 0 16.1161V2.2688C0 0.702239 1.71942 -0.256149 3.05184 0.567735L14.249 7.49136Z" />
+    </svg>
+  </div>
+
+</a>
+</div>
+
+      <!-- Rating Badge -->
+      
+
+      <!-- Bookmark Button -->
+      <button class="absolute top-2 right-2 bg-black/70 hover:bg-black/90 p-2 rounded-md backdrop-blur-sm shadow-sm transition">
+        <i class="fa fa-bookmark text-yellow-400 text-[13px]"></i>
+      </button>
+    </div>
+
+    <!-- Content Section -->
+    <div class="p-4 space-y-2 text-sm flex flex-col justify-between flex-grow">
+      <!-- Title -->
+      <div class="flex justify-between">
+     <a href="movie-details.php?id=${movie.id}"> <h4 class="text-base font-semibold text-gray-900 dark:text-white leading-snug truncate">${title}</h4></a>
+     <div class=" bg-black/80 text-yellow-400 text-sm px-2 py-1 rounded flex items-center gap-1 backdrop-blur-sm shadow-sm">
+        <i class="fa-solid fa-star text-[11px]"></i>
+        <span class="font-bold">${rating}/10</span>
+      </div>
+      </div>
+
+      <!-- Collection -->
+      <p class="text-gray-900 dark:text-white text-sm">Weekly Collection: <span class="text-gray-900 dark:text-white"><i class="fa-solid fa-indian-rupee-sign"></i> --</span></p>
+
+      <!-- Release & Genre -->
+      <div class="text-gray-900 dark:text-white text-sm space-y-1">
+        <p class="text-gray-900 dark:text-white">Release: <span class="text-gray-900 dark:text-white">${releaseDate}</span></p>
+        <p class="text-gray-900 dark:text-white">Genre: <span class="inline-block py-1 px-3 bg-gray-800/80 rounded-md text-[11px] font-medium text-white dark:text-white">${genres}</span></p>
+      </div>
+
+      <!-- Tagline -->
+      <p class="text-gray-900 dark:text-white text-center text-sm font-medium italic">"A Bollywood hit"</p>
+
+      <!-- Buttons -->
+      <div class="flex flex-col gap-2 mt-2">
+        <button class="flex items-center justify-center gap-2 px-4 py-2 bg-yellow-500 hover:bg-yellow-400 text-black text-sm font-semibold rounded-md transition duration-200 shadow">
+          Rate this Movie <i class="fa-solid fa-arrow-up-right-from-square text-[11px] mt-[1px]"></i>
+        </button>
+        <button class="flex items-center justify-center gap-2 px-4 py-2 !bg-gray-800 !text-white  dark:text-white text-sm font-semibold rounded-md border border-white/20  transition duration-200 watch-trailer-btn" data-id="${movie.id}">
+          Watch Trailer <i class="fas fa-play text-[11px] mt-[1px]"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+     };
+
+     const fetchBoxOfficeData = async (tab) => {
+         boxofficeContainer.innerHTML = '<div class="text-white p-4">Loading...</div>';
+         const today = new Date();
+         const fromDate = new Date(tab === 'weeks' ? today.setDate(today.getDate() - 7) : today.setMonth(today.getMonth() - 1));
+         const startDate = fromDate.toISOString().split('T')[0];
+         const endDate = new Date().toISOString().split('T')[0];
+
+         try {
+             const res = await fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&region=IN&sort_by=popularity.desc&with_original_language=hi&release_date.gte=${startDate}&release_date.lte=${endDate}`);
+             const data = await res.json();
+             const results = data.results || [];
+
+             if (!results.length) {
+                 boxofficeContainer.innerHTML = '<div class="text-gray-900 dark:text-white p-4">No Bollywood movies found.</div>';
+                 return;
+             }
+             boxofficeContainer.innerHTML = results.map(generateCard).join('');
+             const swiper = new Swiper('.enhanced-movie-swiper', {
+                 slidesPerView: 1.1,
+                 spaceBetween: 16,
+                 loop: false,
+                 navigation: {
+                     nextEl: '.swiper-button-next',
+                     prevEl: '.swiper-button-prev'
+                 },
+                 breakpoints: {
+                     640: {
+                         slidesPerView: 1.2
+                     },
+                     768: {
+                         slidesPerView: 2
+                     },
+                     1024: {
+                         slidesPerView: 3
+                     },
+                     1280: {
+                         slidesPerView: 4
+                     },
+                 },
+                 on: {
+                     slideChange: function() {
+                         const prev = document.querySelector('.swiper-button-prev');
+                         const next = document.querySelector('.swiper-button-next');
+                         prev.classList.toggle('opacity-50', this.isBeginning);
+                         next.classList.toggle('opacity-50', this.isEnd);
+                     },
+                     afterInit: function() {
+                         this.emit('slideChange');
+                     }
+                 }
+             });
+
+
+
+         } catch (e) {
+             console.error(e);
+             boxofficeContainer.innerHTML = '<div class="text-gray-900 dark:text-white p-4">Failed to load data.</div>';
+         }
+     };
+
+     tabs.forEach(tab => tab.addEventListener('click', () => fetchBoxOfficeData(tab.dataset.tabboxoffice)));
+     fetchBoxOfficeData('weeks');
+ </script>
+
+ <!-- Swiper Container (make sure Swiper CSS/JS are included) -->
+ <script>
+     function formatDate(dateStr) {
+         const d = new Date(dateStr);
+         return d.toLocaleDateString('en-IN', {
+             day: 'numeric',
+             month: 'long',
+             year: 'numeric'
+         });
+     }
+
+     function cardHTML(movie) {
+         const title = movie.title;
+         const poster = movie.poster_path ?
+             `https://image.tmdb.org/t/p/w500${movie.poster_path}` :
+             'https://micodetest.com/masala_meter/assets/images/placeholder.jpg';
+         const rating = movie.vote_average.toFixed(1);
+         const release = formatDate(movie.release_date);
+         const genres = movie.genre_ids?.map(id => genreMap[id] || '')?.filter(Boolean);
+         const genresHTML = genres?.map(g =>
+             `<span class="text-[11px] py-1 px-3 bg-gray-800/80 rounded-md font-medium text-gray-300">${g}</span>`
+         ).join('');
+
+         return `
+       <div class="swiper-slide">
+  <div class="dark:bg-[#111] border border-gray-800 hover:border-gray-400 transition-all duration-300 rounded-xl shadow-lg overflow-hidden  h-[540px]  flex flex-col">
+    
+    <!-- Image & Actions -->
+    <div class="relative">
+      <div class="relative group">
+<img src="${poster}" alt="${title}" class="w-full !h-[310px] !object-cover sm:h-[220px] !object-cover transition-transform duration-300 hover:scale-[1.03] rounded-md">
+
+<!-- Play Button Overlay -->
+ <a href="javascript:void(0)"
+  class="absolute inset-0 flex items-center justify-center movie-overlay z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/40 rounded-md watch-trailer-btn" data-id="${movie.id}">
+
+  <!-- Circle with play button -->
+  <div class="border-2 border-white p-4 rounded-full flex !items-center !justify-center">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" viewBox="0 0 16 19">
+      <path
+        d="M14.249 7.49136C15.5132 8.27308 15.5132 10.1118 14.249 10.8935L3.05184 17.8171C1.71942 18.641 0 17.6826 0 16.1161V2.2688C0 0.702239 1.71942 -0.256149 3.05184 0.567735L14.249 7.49136Z" />
+    </svg>
+  </div>
+
+</a>
+</div>
+
+      <!-- Rating Badge -->
+     
+
+      <!-- Bookmark Button -->
+      <button class="absolute top-2 right-2 bg-black/70 hover:bg-black/90 p-2 rounded-md backdrop-blur-sm shadow-sm transition">
+        <i class="fa fa-bookmark text-yellow-400 text-[13px]"></i>
+      </button>
+    </div>
+
+    <!-- Content Section -->
+    <div class="p-4 space-y-2 text-sm flex flex-col justify-between flex-grow">
+      
+      <!-- Title -->
+      <div class="flex justify-between">
+      <a href="movie-details.php?id=${movie.id}">
+        <h4 class="text-base font-semibold text-gray-900 dark:text-white leading-snug truncate">${title}</h4>
+      </a>
+       <div class=" bg-black/80 text-yellow-400 text-sm px-2 py-1 rounded flex items-center gap-1 backdrop-blur-sm shadow-sm">
+        <i class="fa fa-star text-[11px]"></i>
+        <span class="font-bold">${rating}/10</span>
+      </div>
+      </div>
+
+      <!-- Release & Genre -->
+      <div class="text-gray-900 dark:text-white text-sm space-y-1">
+        <p class="text-gray-900 dark:text-white">Release: <span class="text-gray-900 dark:text-white">${release}</span></p>
+        <div class="flex flex-wrap gap-2 text-white">${genresHTML}</div>
+      </div>
+
+      <!-- Tagline -->
+      <p class="text-gray-900 dark:text-white text-center text-sm font-medium italic line-clamp-1">“ Viral popularity + strong critic & audience acclaim ”</p>
+
+      <!-- Buttons -->
+      <div class="flex flex-col gap-2 mt-2">
+        <a href="movie-details.php?id=${movie.id}" class="flex items-center justify-center gap-2 px-4 py-2 bg-yellow-500 hover:bg-yellow-400 text-black text-sm font-semibold rounded-md transition duration-200 shadow">
+          <i class="fa fa-eye text-[12px] mt-[1px]"></i> View Details
+        </a>
+        <button class="flex items-center justify-center gap-2 px-4 py-2 !bg-gray-800 !text-white text-sm font-semibold rounded-md border border-white/20  transition duration-200 watch-trailer-btn" data-id="${movie.id}">
+          <i class="fas fa-play text-[10px]"></i> Watch Trailer
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+`;
+     }
+
+     // Minimal genre mapping — expand as needed
+     const genreMap = {
+         28: 'Action',
+         18: 'Drama',
+         53: 'Thriller',
+         35: 'Comedy'
+     };
+
+     async function loadTop3Bollywood() {
+         const today = new Date();
+         const weekStart = new Date();
+         weekStart.setDate(today.getDate() - 7);
+
+         const url = `https://api.themoviedb.org/3/discover/movie?` +
+             `api_key=${TMDB_API_KEY}` +
+             `&language=en-IN&region=IN&with_original_language=hi&with_production_countries=IN` +
+             `&release_date.gte=${weekStart.toISOString().split('T')[0]}` +
+             `&release_date.lte=${today.toISOString().split('T')[0]}` +
+             `&sort_by=popularity.desc&page=1`;
+
+         try {
+             const res = await fetch(url);
+             const data = await res.json();
+             const top3 = (data.results || []).slice(0, 3);
+
+             const container = document.getElementById('boxoffice-top3');
+             if (top3.length === 0) {
+                 container.innerHTML = '<div class="text-gray-900 dark:text-white p-4">No Bollywood hits this week.</div>';
+                 return;
+             }
+
+             container.innerHTML = top3.map(cardHTML).join('');
+
+             new Swiper('.boxoffice-swiper', {
+                 slidesPerView: 1,
+                 spaceBetween: 15,
+                 navigation: {
+                     nextEl: '.swiper-button-next',
+                     prevEl: '.swiper-button-prev'
+                 },
+                 breakpoints: {
+                     640: {
+                         slidesPerView: 2
+                     },
+                     1024: {
+                         slidesPerView: 3
+                     }
+                 }
+             });
+         } catch (err) {
+             console.error(err);
+             document.getElementById('boxoffice-top3').innerHTML =
+                 '<div class="text-gray-900 dark:text-white p-4">Failed to load data.</div>';
+         }
+     }
+
+     // Initialize on page load
+     document.addEventListener('DOMContentLoaded', loadTop3Bollywood);
+ </script>
+
+ <script>
+     const container = document.getElementById('newest-bollywood-container');
+
+     const getGenreNames = (genreIds, genresMap) => {
+         return genreIds.map(id => genresMap[id]).filter(Boolean).join(', ') || 'Drama';
+     };
+
+     const fetchGenres = async () => {
+         const res = await fetch(`https://api.themoviedb.org/3/genre/movie/list?api_key=${TMDB_API_KEY}&language=en-IN`);
+         const data = await res.json();
+         const genresMap = {};
+         data.genres.forEach(g => genresMap[g.id] = g.name);
+         return genresMap;
+     };
+
+     const loadNewestBollywood = async () => {
+         const today = new Date().toISOString().split('T')[0];
+         const genresMap = await fetchGenres();
+
+         const url = `https://api.themoviedb.org/3/discover/movie?` +
+             `api_key=${TMDB_API_KEY}&language=en-IN&region=IN` +
+             `&with_original_language=hi&with_production_countries=IN` +
+             `&sort_by=release_date.desc&release_date.lte=${today}&page=1`;
+
+
+         try {
+             const res = await fetch(url);
+             const data = await res.json();
+             const top3 = (data.results || []).slice(0, 3);
+
+             if (!top3.length) {
+                 container.innerHTML = '<div class="text-white">No recent Bollywood releases found.</div>';
+                 return;
+             }
+
+             container.innerHTML = top3.map(movie => {
+                 const title = movie.title || 'Untitled';
+                 const rating = movie.vote_average?.toFixed(1) || '7.0';
+                 const poster = movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : 'https://micodetest.com/masala_meter/assets/images/placeholder.jpg';
+                 const genre = getGenreNames(movie.genre_ids, genresMap);
+                 const runtime = '02h 00m'; // TMDb discover API doesn't return runtime
+
+                 return `
+      <div class="relative group rounded-2xl overflow-hidden shadow-lg bg-black movie-card w-[100%]">
+        <img src="${poster}" alt="${title}"
+            class="w-full h-full !object-cover transition-transform duration-500 group-hover:scale-110" />
+
+        <a href="#" class="absolute inset-0 flex items-center justify-center movie-overlay z-20">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white" viewBox="0 0 16 19">
+            <path d="M14.249 7.49136C15.5132 8.27308 15.5132 10.1118 14.249 10.8935L3.05184 17.8171C1.71942 18.641 0 17.6826 0 16.1161V2.2688C0 0.702239 1.71942 -0.256149 3.05184 0.567735L14.249 7.49136Z" />
+          </svg>
+        </a>
+
+        <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black via-black/70 to-transparent p-4 text-white z-30 movie-details">
+          <h4 class="text-sm font-bold uppercase gradient-link">${title}</h4>
+          <ul class="text-sm flex gap-3 opacity-80">
+            <li class="flex items-center gap-1"><img src="assets/images/icons/card/star-fill.svg" class="w-3" /> ${rating}</li>
+            <li class="flex items-center gap-1"><img src="assets/images/icons/card/clock-fill.svg" class="w-3" /> ${runtime}</li>
+            <li class="flex items-center gap-1"><img src="assets/images/icons/card/4k-fill.svg" class="w-3" /> 4K</li>
+          </ul>
+          <p class="text-sm">${genre}</p>
+        </div>
+
+        <div class="absolute top-1/2 right-2 -translate-y-1/2 flex flex-col gap-6 movie-options z-30 !items-center ">
+          <button class="bg-white/20  w-9 h-9 hover:bg-white/40 rounded-full p-2 backdrop-blur-md cursor-pointer !items-center !justify-centre">
+            <img src="assets/images/icons/card/add-playlist.svg" alt="playlist" class="w-7 h-7" />
+          </button>
+          <button class="bg-white/20  w-9 h-9 hover:bg-white/40 rounded-full p-2 backdrop-blur-md cursor-pointer !items-center !justify-centre">
+            <img src="assets/images/icons/card/casting.svg" alt="casting" class="w-7 h-7" />
+          </button>
+          <button class="bg-white/20  w-9 h-9 hover:bg-white/40 rounded-full p-2 backdrop-blur-md cursor-pointer !items-center !justify-centre">
+            <img src="assets/images/icons/card/add-favourite.svg" alt="favourite" class="w-7 h-7" />
+          </button>
+          <button class="bg-white/20 w-9 h-9 hover:bg-white/40 rounded-full p-2 backdrop-blur-md cursor-pointer !items-center !justify-centre">
+            <img src="assets/images/icons/card/share.svg" alt="share" class="w-7 h-7" />
+          </button>
+        </div>
+      </div>`;
+             }).join('');
+         } catch (err) {
+             console.error(err);
+             container.innerHTML = '<div class="text-red-500 p-4">Failed to load latest releases.</div>';
+         }
+     };
+
+     loadNewestBollywood();
+ </script>
+
+ <script>
+     const container = document.getElementById('top-artists-container');
+
+     const fetchTopArtists = async () => {
+         const url = `https://api.themoviedb.org/3/trending/person/week?api_key=${TMDB_API_KEY}`;
+
+         try {
+             const res = await fetch(url);
+             const data = await res.json();
+             const topArtists = data.results.slice(0, 12); // Get top 12
+
+             container.innerHTML = topArtists.map(artist => {
+                 const name = artist.name;
+                 const role = artist.known_for_department || 'Celebrity';
+                 const profilePath = artist.profile_path ?
+                     `https://image.tmdb.org/t/p/w300${artist.profile_path}` :
+                     'assets/images/placeholder.png';
+
+                 return `
+          <div class="w-[calc(50%-8px)] sm:w-[calc(33.333%-10px)] md:w-[calc(25%-10px)] lg:w-[calc(16.666%-12px)] text-center group">
+            <div class="relative mx-auto w-28 h-28 sm:w-32 sm:h-32 rounded-full overflow-hidden ring-2 ring-yellow-400 group-hover:ring-4 transition-all duration-300">
+              <img src="${profilePath}" alt="${name}" class="w-full h-full object-cover" />
+              <div class="absolute inset-0 bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"></div>
+            </div>
+            <h5 class="mt-3 text-lg font-semibold group-hover:text-yellow-400 transition-colors">${name}</h5>
+            <p class="text-sm text-gray-400">${role}</p>
+          </div>
+        `;
+             }).join('');
+         } catch (error) {
+             console.error('Failed to fetch artists:', error);
+             container.innerHTML = '<div class="text-red-500">Failed to load artists.</div>';
+         }
+     };
+
+     fetchTopArtists();
+ </script>
+
+ <script>
+     document.addEventListener('DOMContentLoaded', function() {
+         const swiper = new Swiper('.reviewSwiper', {
+             slidesPerView: 1,
+             spaceBetween: 20,
+             pagination: {
+                 el: '.swiper-pagination',
+                 clickable: true,
+             },
+             navigation: {
+                 nextEl: '.swiper-button-next-review',
+                 prevEl: '.swiper-button-prev-review',
+             },
+             breakpoints: {
+                 640: {
+                     slidesPerView: 2,
+                 },
+                 768: {
+                     slidesPerView: 3,
+                 },
+                 1024: {
+                     slidesPerView: 4,
+                 },
+             }
+         });
+     });
+ </script>
+ <?php include('include/footer.php') ?>
